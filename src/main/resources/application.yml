@@ -1,0 +1,32 @@
+server:
+  port: 8091
+  tomcat:
+    uri-encoding: utf-8
+
+spring:
+  application:
+    name: manger
+  datasource:
+    url: jdbc:mysql://172.16.183.237:3306/aale?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  druid:
+    max-active: 30
+    min-idle: 5
+    maxWait: 10000
+    validationQuery: SELECT 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    #spring 默认jackson返回时区与当前相差8个小时
+    time-zone: GMT+8
+
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
