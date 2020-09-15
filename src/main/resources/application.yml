@@ -12,6 +12,22 @@ spring:
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
+  freemarker:
+    cache: true
+    charset: utf-8
+    content-type: text/html;charset=UTF-8
+    expose-request-attributes: true
+    expose-session-attributes: true
+    expose-spring-macro-helpers: true
+    allow-session-override: true
+    suffix: .html
+    settings:
+      datetime_format: yyyy-MM-dd HH:mm:ss
+      default_encoding: UTF-8
+      number_format: 0.##########
+      auto_import: common/common.ftl as common
+      template_exception_handler: ignore
+      template_update_delay: 0
 
   druid:
     max-active: 30
@@ -26,7 +42,6 @@ spring:
     #spring 默认jackson返回时区与当前相差8个小时
     time-zone: GMT+8
 
-  mvc:
-    view:
-      prefix: /
-      suffix: .html
+
+
+
