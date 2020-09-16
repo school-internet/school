@@ -1,11 +1,15 @@
 package com.school.internet.user.controller;
 
 
+import com.school.internet.user.common.ResultMsg;
+import com.school.internet.user.common.ThreadVariable;
+import com.school.internet.user.entity.SmUser;
+import com.school.internet.user.service.ISmUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,18 +22,45 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2020-09-13
  */
 @Controller
-@RequestMapping("/user")
 public class LoginController {
 
+    @Autowired
+    private ISmUserService iSmUserService;
 
+    @RequestMapping("login")
+    public String login(HttpServletRequest req){
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        req.setAttribute("errorMsg", req.getParameter("errorMsg"));
+        if (username == null || password == null) {
 
-    @RequestMapping("/login")
-    public String login(HttpServletRequest  request){
-        System.out.println("haha");
-        return "index";
+            return "/login";
+        }
+        SmUser smUser = new SmUser();
+        if(smUser == null){
+            return "redirect:/login?" + "username=" + username + "&" + ResultMsg.errorMsg("用户名或密码错误").asUrlParams();
+        }else{
+            ThreadVariable threadVariable =  ThreadVariable.getInstance();
+            Thread thread = new Thread(threadVariable);
+            threadVariable.setPsndoc(smUser);
+            thread.start();
+            req.getSession().setAttribute("user",smUser);
+            return  "redirect:/main";
+        }
+
     }
 
 
+
+    @RequestMapping("main")
+    public String main(){
+        return "main";
+    }
+
+    @RequestMapping("index")
+    public String index(){
+        return "index";
+    }
 
     @PostMapping("test")
     public void  query(@RequestBody String  userId){
