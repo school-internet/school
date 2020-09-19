@@ -13,4 +13,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISmUserService extends IService<SmUser> {
 
+
+     SmUser querySmUser(String name,String password);
+
+
+
 }

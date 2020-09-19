@@ -2,6 +2,8 @@ package com.school.internet.user.entity;
 
 import java.time.LocalDate;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,6 +21,9 @@ public class SmUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId
+    private Integer  id;
+
     private String code;
 
     private String name;
@@ -35,11 +40,12 @@ public class SmUser implements Serializable {
 
     private String password;
 
+    //加盐字段
     private String encryptpara;
 
     private String creater;
 
-    private LocalDate createTime;
+    private String createTime;
 
     private String certType;
 

@@ -36,7 +36,7 @@ public class LoginController {
 
             return "/login";
         }
-        SmUser smUser = new SmUser();
+        SmUser smUser =  iSmUserService.querySmUser(username,password);
         if(smUser == null){
             return "redirect:/login?" + "username=" + username + "&" + ResultMsg.errorMsg("用户名或密码错误").asUrlParams();
         }else{
@@ -50,6 +50,11 @@ public class LoginController {
 
     }
 
+
+    @PostMapping("saveUser")
+    public SmUser  saveUser(SmUser smUser){
+
+    }
 
 
     @RequestMapping("main")
