@@ -7,10 +7,10 @@ spring:
   application:
     name: manger
   datasource:
-    url: jdbc:mysql://172.16.183.237:3306/aale?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+    url: jdbc:mysql://127.0.0.1:3306/aale?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: root
+    password:
     type: com.alibaba.druid.pool.DruidDataSource
   freemarker:
     cache: true
