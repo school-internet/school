@@ -26,7 +26,7 @@ import java.util.List;
 public class EqRuleController {
 
     @Autowired
-    private IEqRuleService iEqRuleService;
+    private  IEqRuleService iEqRuleService;
 
     @GetMapping("queryAll")
     public MSPage<EqRule> queryAll(){

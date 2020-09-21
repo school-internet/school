@@ -2,6 +2,7 @@ package com.school.internet.equip.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.school.internet.equip.entity.EqEquipdoc;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.school.internet.equip.entity.EqEquipdoc;
  * @author jobob
  * @since 2020-09-19
  */
+@Mapper
 public interface EqEquipdocMapper extends BaseMapper<EqEquipdoc> {
 
 }
