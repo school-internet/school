@@ -3,6 +3,8 @@ package com.school.internet.equip.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.school.internet.equip.entity.EqRule;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -13,4 +15,5 @@ import com.school.internet.equip.entity.EqRule;
  */
 public interface EqRuleMapper extends BaseMapper<EqRule> {
 
+    public List<EqRule> all();
 }

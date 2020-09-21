@@ -52,7 +52,7 @@ public class LoginController {
 
 
     @PostMapping("saveUser")
-    public SmUser  saveUser(SmUser smUser){
+    public void  saveUser(SmUser smUser){
 
     }
 

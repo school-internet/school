@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.school.internet.equip.entity.EqRule;
 import com.school.internet.equip.mapper.EqRuleMapper;
 import com.school.internet.equip.service.IEqRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,5 +19,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EqRuleServiceImpl extends ServiceImpl<EqRuleMapper, EqRule> implements IEqRuleService {
+
+    @Autowired
+    private EqRuleMapper eqRuleMapper;
+
+    public List<EqRule> all(){
+        return eqRuleMapper.all();
+    }
 
 }
