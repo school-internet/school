@@ -1,6 +1,10 @@
 package com.school.internet.equip.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.school.internet.corn.config.MSPage;
+import com.school.internet.corn.config.PageUtils;
 import com.school.internet.equip.entity.EqRule;
 import com.school.internet.equip.mapper.EqRuleMapper;
 import com.school.internet.equip.service.IEqRuleService;
@@ -23,8 +27,8 @@ public class EqRuleServiceImpl extends ServiceImpl<EqRuleMapper, EqRule> impleme
     @Autowired
     private EqRuleMapper eqRuleMapper;
 
-    public List<EqRule> all(){
-        return eqRuleMapper.all();
+    public MSPage<EqRule> all(Page<EqRule> page){
+        return PageUtils.page(eqRuleMapper.all(page));
     }
 
 }

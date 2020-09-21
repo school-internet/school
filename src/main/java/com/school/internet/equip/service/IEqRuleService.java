@@ -1,7 +1,11 @@
 package com.school.internet.equip.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.school.internet.corn.config.MSPage;
 import com.school.internet.equip.entity.EqRule;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,8 +17,9 @@ import java.util.List;
  * @author jobob
  * @since 2020-09-19
  */
+@Service
 public interface IEqRuleService extends IService<EqRule> {
 
 
-    public List<EqRule> all();
+     MSPage<EqRule> all(Page<EqRule> page);
 }

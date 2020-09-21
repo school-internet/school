@@ -18,15 +18,10 @@ public class DemoApplicationTests {
 
     @Autowired
     private CronTaskRegistrar cronTaskRegistrar;
-    @Autowired
-    private IEqRuleService iEqRuleService;
 
     @Test
     public void testrule(){
-        List<EqRule> ruleList = iEqRuleService.all();
-        for(EqRule eqRule : ruleList){
-            System.out.println(eqRule.getRuleValue());
-        }
+
     }
 
     @Test
