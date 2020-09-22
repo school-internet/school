@@ -1,7 +1,10 @@
 package com.school.internet.equip.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.school.internet.equip.entity.EqEquipdoc;
+import com.school.internet.equip.entity.EquipdocVO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,7 +15,8 @@ import org.springframework.stereotype.Service;
  * @author jobob
  * @since 2020-09-19
  */
-@Service
 public interface IEqEquipdocService extends IService<EqEquipdoc> {
 
+
+    IPage<EquipdocVO>  pageEquipdoc(Page page, EqEquipdoc eqEquipdoc);
 }

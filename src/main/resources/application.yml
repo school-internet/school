@@ -42,6 +42,8 @@ spring:
     #spring 默认jackson返回时区与当前相差8个小时
     time-zone: GMT+8
 
-
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 

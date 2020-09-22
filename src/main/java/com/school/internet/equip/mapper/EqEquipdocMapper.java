@@ -1,8 +1,13 @@
 package com.school.internet.equip.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.school.internet.corn.config.PageUtils;
 import com.school.internet.equip.entity.EqEquipdoc;
+import com.school.internet.equip.entity.EquipdocVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -15,4 +20,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface EqEquipdocMapper extends BaseMapper<EqEquipdoc> {
 
+
+    IPage<EquipdocVO>  pageEquip(Page page, @Param("model")EqEquipdoc eqEquipdoc);
 }
