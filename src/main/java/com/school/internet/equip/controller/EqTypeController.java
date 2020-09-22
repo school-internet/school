@@ -49,14 +49,14 @@ public class EqTypeController {
     }
 
 
-     @PostMapping("pageType")
-     public MSPage<EqType>  pageType(@RequestBody EqType eqType){
+    @PostMapping("pageType")
+     public MSPage<EqType>  pageType(@RequestParam  String name, @RequestParam Integer pageNo,@RequestParam Integer pageSize,@RequestParam String typeName){
          Page<EqType>  page  = new Page<>();
-         page.setCurrent(eqType.getPageNo());
-         page.setSize(eqType.getPageSize());
+         page.setCurrent(pageNo);
+         page.setSize(pageSize);
           LambdaQueryWrapper<EqType> lambdaQueryWrapper =  new LambdaQueryWrapper<>();
          lambdaQueryWrapper.eq(EqType::getDr,0);
-         lambdaQueryWrapper.setEntity(eqType);
+         lambdaQueryWrapper.eq(EqType::getTypeName,typeName);
          return PageUtils.page(iEqTypeService.page(page,lambdaQueryWrapper));
      }
 

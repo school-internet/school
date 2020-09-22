@@ -1,7 +1,6 @@
 package com.school.internet.equip.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.school.internet.corn.config.PageQuery;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -18,7 +17,7 @@ import java.math.BigDecimal;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class EqType  extends PageQuery implements Serializable {
+public class EqType   implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,7 +30,7 @@ public class EqType  extends PageQuery implements Serializable {
 
     private BigDecimal state;
 
-    private BigDecimal dr;
+    private int dr;
 
     private String ts;
 

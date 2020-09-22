@@ -1,7 +1,8 @@
 package com.school.internet.equip.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.school.internet.corn.config.PageQuery;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -18,11 +19,12 @@ import java.math.BigDecimal;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class EqEquipdoc extends PageQuery implements Serializable {
+@KeySequence(value = "SEQ_ORACLE_STRING_KEY", clazz = String.class)
+public class EqEquipdoc  implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId
+    @TableId(value = "pk_equipdoc",type = IdType.ASSIGN_ID)
     private String pkEquipdoc;
 
     private String equipName;
@@ -49,7 +51,7 @@ public class EqEquipdoc extends PageQuery implements Serializable {
 
     private String vuserdef5;
 
-    private BigDecimal dr;
+    private int dr;
 
     private String ts;
 

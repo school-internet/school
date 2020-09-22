@@ -1,6 +1,7 @@
 package com.school.internet.equip.controller;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -30,16 +31,20 @@ public class EqEquipdocController {
     private IEqEquipdocService iEqEquipdocService;
 
     @PostMapping("pageEqEquipdoc")
-    public MSPage<EquipdocVO>  pagelist(@RequestBody  EqEquipdoc eqEquipdoc){
+    public MSPage<EquipdocVO>  pagelist(@RequestParam  String name, @RequestParam Integer pageNo,@RequestParam Integer pageSize,@RequestParam String fkEquiptype){
         Page<EqEquipdoc>  page  = new Page<>();
-        page.setCurrent(eqEquipdoc.getPageNo());
-        page.setSize(eqEquipdoc.getPageSize());
+        page.setCurrent(pageNo);
+        page.setSize(pageSize);
+        EqEquipdoc eqEquipdoc  = new EqEquipdoc();
+        eqEquipdoc.setEquipName(name);
+        eqEquipdoc.setFkEquiptype(fkEquiptype);
        return PageUtils.page(iEqEquipdocService.pageEquipdoc(page,eqEquipdoc));
 
     }
 
     @PostMapping("saveEqEquipdoc")
     public void  saveEqEquipdoc(@RequestBody EqEquipdoc eqEquipdoc){
+        eqEquipdoc.setDr(0);
         iEqEquipdocService.save(eqEquipdoc);
     }
 
@@ -77,5 +82,7 @@ public class EqEquipdocController {
         //接受数据
         msg = new dcc_msg();
         System.out.print("返回="+dcc_client.dcc_msg_recv(socket, msg));
+
+         //说明发送成功
     }
 }
