@@ -17,4 +17,9 @@ public class EquipController {
     public String equiplist(){
         return "equip/equiplist";
     }
+
+    @RequestMapping("/addtype")
+    public String addtype(){
+        return "equip/addtype";
+    }
 }
