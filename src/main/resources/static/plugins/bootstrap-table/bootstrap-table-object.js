@@ -134,8 +134,8 @@
 var oTableInit = new Object();
 oTableInit.queryParams = function (params){
     var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-        rows: params.limit,   //页面大小
-        page: params.offset/params.limit+1  //页码
+        pageSize: params.limit,   //页面大小
+        pageNo: params.offset/params.limit+1  //页码
 
     };
     $.extend(temp, queryMap);

@@ -14,12 +14,12 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        SchedulingRunnable task = new SchedulingRunnable("demoTask", "taskNoParams", null);
-        cronTaskRegistrar.addCronTask(task, "0/10 * * * * ?");
-        SchedulingRunnable task1 = new SchedulingRunnable("demoTask", "taskWithParams", "test",2);
-        cronTaskRegistrar.addCronTask(task1, "0/15 * * * * ?");
-        SchedulingRunnable task2 = new SchedulingRunnable("demoTask", "taskWithParams", "test1",1);
-        cronTaskRegistrar.addCronTask(task2, "0/8 * * * * ?");
+//        SchedulingRunnable task = new SchedulingRunnable("demoTask", "taskNoParams", null);
+//        cronTaskRegistrar.addCronTask(task, "0/10 * * * * ?");
+//        SchedulingRunnable task1 = new SchedulingRunnable("demoTask", "taskWithParams", "test",2);
+//        cronTaskRegistrar.addCronTask(task1, "0/15 * * * * ?");
+//        SchedulingRunnable task2 = new SchedulingRunnable("demoTask", "taskWithParams", "test1",1);
+//        cronTaskRegistrar.addCronTask(task2, "0/8 * * * * ?");
 
         System.out.println();
     }

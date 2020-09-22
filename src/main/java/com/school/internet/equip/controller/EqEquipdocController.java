@@ -7,7 +7,7 @@ import com.school.internet.corn.config.PageUtils;
 import com.school.internet.equip.entity.EqEquipdoc;
 import com.school.internet.equip.service.IEqEquipdocService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +26,7 @@ public class EqEquipdocController {
     @Autowired
     private IEqEquipdocService iEqEquipdocService;
 
-    @GetMapping("pageEqEquipdoc")
+    @PostMapping("pageEqEquipdoc")
     public MSPage<EqEquipdoc>  pagelist(int pageNo, int pageSize){
         Page<EqEquipdoc>  page  = new Page<>();
         page.setCurrent(pageNo);
