@@ -15,7 +15,7 @@
                 </div>
                 <div class="ibox-content">
                     <div class="">
-                        <a  href="javascript:void(0);" class="btn btn-primary ">新增</a>
+                        <a  href="javascript:void(0);" class="btn btn-primary" id="add">新增</a>
                     </div>
                     <table id="equiptable"  data-mobile-responsive="true">
 
@@ -37,6 +37,7 @@
 <script>
     var queryMap = new Object(); //table查询条件
     queryMap["query"] = false;
+    var table = null;
     $(document).ready(function () {
         //初始化Table
         var tableobj = new Object();
@@ -52,7 +53,7 @@
                 field: 'imei',
                 title: 'IMEI'
             },{
-                field: 'fkEquiptype',
+                field: 'typeName',
                 title: '机型'
             },{
                 field: 'state',
@@ -78,21 +79,88 @@
             }];
         };
         var defaultColunms = tableobj.initColumn();
-        var table = new BSTable(tableobj.tableid, "/equip/eq-equipdoc/pageEqEquipdoc","pkEquipdoc", defaultColunms);
+        table = new BSTable(tableobj.tableid, "/equip/eq-equipdoc/pageEqEquipdoc","pkEquipdoc", defaultColunms);
         tableobj.table = table.init();
+
+        $("#add").click(function(){
+            parent.layer.open({
+                type: 2,
+                title: '新增设备',
+                shadeClose: false,
+                shade: 0.1,
+                shift:2,
+                area: ['50%', '60%'],
+                content: 'equip/addequip',
+                cancel: function(){
+                    table.refresh();
+                },
+                end:function () {
+                    table.refresh();
+                }
+            });
+        })
     })
     function operateFormatter(value, row, index) {
         return [
-            '<a class="detail" style="margin-left:10px" href="javascript:void(0)" title="下发">',
-            '<i class="fa fa-newspaper-o"></i>',
-            '</a>'
+            '<a class="edit" style="margin-left:10px" href="javascript:void(0)" title="修改">',
+            '修改',
+            '</a>',
+            '<a class="del" style="margin-left:10px" href="javascript:void(0)" title="删除">',
+            '删除',
+            '</a>',
         ].join('');
     };
     window.operateEvents = {
 
-        'click .detail': function (e, value, row, index) {
+        'click .edit': function (e, value, row, index) {
+            parent.layer.open({
+                type: 2,
+                title: '设备修改',
+                shadeClose: false,
+                shade: 0.1,
+                shift:2,
+                area: ['50%', '60%'],
+                content: '/equip/toeditEquip?pkEquipdoc='+row.pkEquipdoc,
+                cancel: function(){
+                    table.refresh();
+                },
+                end:function () {
+                    table.refresh();
+                }
+            });
 
+        },
+        'click .del': function (e, value, row, index) {
+            swal({
+                title: "您确定要删除这条信息吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+                var index = null;
+                $.ajax({
+                    type: "GET",
+                    url:"/equip/eq-equipdoc/deleteEqEquipdoc?pkEquipdoc="+row.pkEquipdoc,
+                    async: false,
+                    beforeSend: function () {
 
+                    },
+                    complete: function () {
+
+                    },
+                    error: function(request) {
+                        alert("Connection error");
+                    },
+                    success: function(data) {
+                        swal({title :"成功！", text :"您已经操作成功。", type :"success"},function(){
+                            table.refresh();
+                        });
+                    }
+                });
+            });
         }
     };
 </script>

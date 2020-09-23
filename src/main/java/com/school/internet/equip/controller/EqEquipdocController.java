@@ -31,33 +31,38 @@ public class EqEquipdocController {
     private IEqEquipdocService iEqEquipdocService;
 
     @PostMapping("pageEqEquipdoc")
-    public MSPage<EquipdocVO>  pagelist(@RequestParam  String name, @RequestParam Integer pageNo,@RequestParam Integer pageSize,@RequestParam String fkEquiptype){
+    public MSPage<EquipdocVO>  pagelist( Integer pageNo, Integer pageSize,EquipdocVO equipdocVO){
         Page<EqEquipdoc>  page  = new Page<>();
         page.setCurrent(pageNo);
         page.setSize(pageSize);
         EqEquipdoc eqEquipdoc  = new EqEquipdoc();
-        eqEquipdoc.setEquipName(name);
-        eqEquipdoc.setFkEquiptype(fkEquiptype);
+        if(null != equipdocVO.getEquipName()){
+            eqEquipdoc.setEquipName(equipdocVO.getEquipName());
+        }
+        if(null != equipdocVO.getFkEquiptype()){
+            eqEquipdoc.setFkEquiptype(equipdocVO.getFkEquiptype());
+        }
+
        return PageUtils.page(iEqEquipdocService.pageEquipdoc(page,eqEquipdoc));
 
     }
 
     @PostMapping("saveEqEquipdoc")
-    public void  saveEqEquipdoc(@RequestBody EqEquipdoc eqEquipdoc){
+    public void  saveEqEquipdoc(EqEquipdoc eqEquipdoc){
         eqEquipdoc.setDr(0);
         iEqEquipdocService.save(eqEquipdoc);
     }
 
 
     @PostMapping("updateEqEquipdoc")
-    public void  updateEqEquipdoc(@RequestBody EqEquipdoc eqEquipdoc){
+    public void  updateEqEquipdoc(EqEquipdoc eqEquipdoc){
         iEqEquipdocService.updateById(eqEquipdoc);
     }
 
     @GetMapping("deleteEqEquipdoc")
     public void deleteEqEquipdoc(String pkEquipdoc){
         LambdaUpdateWrapper<EqEquipdoc> updateWrapper  =  new LambdaUpdateWrapper<>();
-        updateWrapper.eq(EqEquipdoc::getDr,1);
+        updateWrapper.set(EqEquipdoc::getDr,1);
         updateWrapper.eq(EqEquipdoc::getPkEquipdoc,pkEquipdoc);
         iEqEquipdocService.update(updateWrapper);
     }
