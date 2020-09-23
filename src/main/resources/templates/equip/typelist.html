@@ -102,6 +102,9 @@
             '<a class="del" style="margin-left:10px" href="javascript:void(0)" title="删除">',
             '删除',
             '</a>',
+            '<a class="instructs" style="margin-left:10px" href="javascript:void(0)" title="指令集">',
+            '指令集',
+            '</a>'
         ].join('');
     };
     window.operateEvents = {
@@ -155,7 +158,24 @@
                 }
             });
         });
-    }
+    },
+        'click .instructs': function (e, value, row, index) {
+            parent.layer.open({
+                type: 2,
+                title: '指令集',
+                shadeClose: false,
+                shade: 0.1,
+                shift:2,
+                area: ['100%', '100%'],
+                content: '/equip/listInstruct?fkEquiptype='+row.pkEquiptype,
+                cancel: function(){
+
+                },
+                end:function () {
+
+                }
+            });
+        }
 
     };
 </script>

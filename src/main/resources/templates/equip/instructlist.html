@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<@common.header/>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>类型指令</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="">
+                        <a  href="javascript:void(0);" class="btn btn-primary" id="add">新增</a>
+                    </div>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>指令名</th>
+                            <th>指令值</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <#list instructs as instruct>
+                            <tr>
+                                <td>${instruct.instructName}</td>
+                                <td>${instruct.instructValue}</td>
+                                <td><a href="javascript:void(0);" onclick="editinstruct('${instruct.pkInstruct}')">修改</a>&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delinstruct('${instruct.pkInstruct}')">删除</a></td>
+                            </tr>
+                        </#list>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<@common.js/>
+<!-- layer -->
+<script src="/plugins/layer/layer.js"></script>
+<script>
+    $(document).ready(function () {
+        //新增
+        $("#add").click(function(){
+            parent.layer.open({
+                type: 2,
+                title: '新增指令集',
+                shadeClose: false,
+                shade: 0.1,
+                shift:2,
+                area: ['50%', '60%'],
+                content: 'equip/addInstruct?fkEquiptype=${fkEquiptype}',
+                cancel: function(){
+                    location.reload();
+                },
+                end:function () {
+                    location.reload();
+                }
+            });
+        })
+
+
+    })
+    function delinstruct(pkInstruct){
+        swal({
+            title: "您确定要删除这条信息吗",
+            text: "删除后将无法恢复，请谨慎操作！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "删除",
+            closeOnConfirm: false
+        }, function () {
+            var index = null;
+            $.ajax({
+                type: "GET",
+                url:"/equip/eq-instruct/removeInstruct?pkInstruct="+pkInstruct,
+                async: false,
+                beforeSend: function () {
+
+                },
+                complete: function () {
+
+                },
+                error: function(request) {
+                    alert("Connection error");
+                },
+                success: function(data) {
+                    swal({title :"成功！", text :"您已经操作成功。", type :"success"},function(){
+                        location.reload();
+                    });
+                }
+            });
+        });
+    }
+    function editinstruct(pkInstruct){
+        parent.layer.open({
+            type: 2,
+            title: '修改指令集',
+            shadeClose: false,
+            shade: 0.1,
+            shift:2,
+            area: ['50%', '60%'],
+            content: 'equip/toeditInstruct?pkInstruct='+pkInstruct,
+            cancel: function(){
+                location.reload();
+            },
+            end:function () {
+                location.reload();
+            }
+        });
+    }
+</script>
+</body>
+</html>

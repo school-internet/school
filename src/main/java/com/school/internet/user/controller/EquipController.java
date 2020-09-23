@@ -1,8 +1,11 @@
 package com.school.internet.user.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.school.internet.equip.entity.EqEquipdoc;
+import com.school.internet.equip.entity.EqInstruct;
 import com.school.internet.equip.entity.EqType;
 import com.school.internet.equip.service.IEqEquipdocService;
+import com.school.internet.equip.service.IEqInstructService;
 import com.school.internet.equip.service.impl.EqEquipdocServiceImpl;
 import com.school.internet.equip.service.impl.EqTypeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("equip")
@@ -21,6 +26,8 @@ public class EquipController {
 
     @Autowired
     private IEqEquipdocService iEqEquipdocService;
+    @Autowired
+    private IEqInstructService iEqInstructService;
 
     @RequestMapping("/typelist")
     public String typelist(){
@@ -54,5 +61,29 @@ public class EquipController {
         EqEquipdoc eqEquipdoc = iEqEquipdocService.getById(pkEquipdoc);
         modelMap.put("eqEquipdoc",eqEquipdoc);
         return "equip/editequip";
+    }
+
+    @GetMapping("listInstruct")
+    public String listInstruct(String fkEquiptype,ModelMap modelMap){
+        LambdaQueryWrapper<EqInstruct> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(EqInstruct::getDr,0);
+        lambdaQueryWrapper.eq(EqInstruct::getFkEquiptype,fkEquiptype);
+        List<EqInstruct> instructs = iEqInstructService.list(lambdaQueryWrapper);
+        modelMap.put("instructs",instructs);
+        modelMap.put("fkEquiptype",fkEquiptype);
+        return "equip/instructlist";
+    }
+
+    @GetMapping("addInstruct")
+    public String addInstruct(String fkEquiptype,ModelMap modelMap){
+        modelMap.put("fkEquiptype",fkEquiptype);
+        return "equip/addinstruct";
+    }
+
+    @GetMapping("toeditInstruct")
+    public String toeditInstruct(String pkInstruct,ModelMap modelMap){
+        EqInstruct eqInstruct = iEqInstructService.getById(pkInstruct);
+        modelMap.put("eqInstruct",eqInstruct);
+        return "equip/editinstruct";
     }
 }
