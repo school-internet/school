@@ -108,6 +108,9 @@
             '<a class="del" style="margin-left:10px" href="javascript:void(0)" title="删除">',
             '删除',
             '</a>',
+            '<a class="send" style="margin-left:10px" href="javascript:void(0)" title="下发">',
+            '下发',
+            '</a>'
         ].join('');
     };
     window.operateEvents = {
@@ -161,6 +164,24 @@
                     }
                 });
             });
+        },
+        'click .send': function (e, value, row, index) {
+            parent.layer.open({
+                type: 2,
+                title: '设备下发',
+                shadeClose: false,
+                shade: 0.1,
+                shift:2,
+                area: ['60%', '80%'],
+                content: '/equip/sendInstructs?fkEquiptype='+row.fkEquiptype+'&pkEquipdoc='+row.pkEquipdoc,
+                cancel: function(){
+                    table.refresh();
+                },
+                end:function () {
+                    table.refresh();
+                }
+            });
+
         }
     };
 </script>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<@common.header/>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>类型指令</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>指令名</th>
+                            <th>指令值</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <#list instructs as instruct>
+                        <tr>
+                            <td>${instruct.instructName}</td>
+                            <td>${instruct.instructValue}</td>
+                            <td><a href="javascript:void(0);" onclick="sendinstruct('${instruct.pkInstruct}')">发送</a></td>
+                        </tr>
+                        </#list>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<@common.js/>
+<!-- layer -->
+<script src="/plugins/layer/layer.js"></script>
+<script>
+    $(document).ready(function () {
+
+    function sendinstruct(pkInstruct){
+        swal({
+            title: "您确定要删除这条信息吗",
+            text: "删除后将无法恢复，请谨慎操作！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "删除",
+            closeOnConfirm: false
+        }, function () {
+            var index = null;
+            $.ajax({
+                type: "GET",
+                url:"/equip/eq-instruct/removeInstruct?pkInstruct="+pkInstruct,
+                async: false,
+                beforeSend: function () {
+
+                },
+                complete: function () {
+
+                },
+                error: function(request) {
+                    alert("Connection error");
+                },
+                success: function(data) {
+                    swal({title :"成功！", text :"您已经操作成功。", type :"success"},function(){
+
+                    });
+                }
+            });
+        });
+    }
+
+</script>
+</body>
+</html>

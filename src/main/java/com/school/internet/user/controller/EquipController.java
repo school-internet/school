@@ -74,6 +74,18 @@ public class EquipController {
         return "equip/instructlist";
     }
 
+    @GetMapping("sendInstructs")
+    public String sendInstructs(String pkEquipdoc,String fkEquiptype,ModelMap modelMap){
+        LambdaQueryWrapper<EqInstruct> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(EqInstruct::getDr,0);
+        lambdaQueryWrapper.eq(EqInstruct::getFkEquiptype,fkEquiptype);
+        List<EqInstruct> instructs = iEqInstructService.list(lambdaQueryWrapper);
+        modelMap.put("instructs",instructs);
+        modelMap.put("fkEquiptype",fkEquiptype);
+        modelMap.put("pkEquipdoc",pkEquipdoc);
+        return "equip/sendinstructs";
+    }
+
     @GetMapping("addInstruct")
     public String addInstruct(String fkEquiptype,ModelMap modelMap){
         modelMap.put("fkEquiptype",fkEquiptype);
