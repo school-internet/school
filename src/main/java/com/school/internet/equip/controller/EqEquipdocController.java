@@ -69,7 +69,7 @@ public class EqEquipdocController {
 
 
     @GetMapping("sendMsg")
-    public void sendMsg(String imei,String value)  throws Exception{
+    public Integer sendMsg(String imei,String value)  throws Exception{
         SocketChannel socket = dcc_client.dcc_Socket("iot.harvestcloud.cn", 9877);
 
         //数据包格式看mserver相关手册
@@ -80,13 +80,9 @@ public class EqEquipdocController {
         msg.setMsg_len(8);
         msg.setMsg_body(ByteUtils.getByteArray(value));
         msg.setImei(imei);
-        System.out.println("发送="+dcc_client.dcc_msg_send(socket, msg));
+       return  dcc_client.dcc_msg_send(socket, msg);
 
-        Thread.sleep(300);
 
-        //接受数据
-        msg = new dcc_msg();
-        System.out.print("返回="+dcc_client.dcc_msg_recv(socket, msg));
 
          //说明发送成功
     }

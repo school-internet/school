@@ -1,9 +1,11 @@
 package com.school.internet;
 
+import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -24,6 +26,11 @@ public class InternetApplication extends SpringBootServletInitializer {
         servletContext.setSessionTrackingModes(Collections.singleton(SessionTrackingMode.COOKIE));
         SessionCookieConfig sessionCookieConfig = servletContext.getSessionCookieConfig();
         sessionCookieConfig.setHttpOnly(true);
+    }
+
+    @Bean
+    public OptimisticLockerInterceptor optimisticLockerInterceptor() {
+        return new OptimisticLockerInterceptor();
     }
 
 }
