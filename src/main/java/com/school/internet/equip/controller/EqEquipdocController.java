@@ -80,13 +80,9 @@ public class EqEquipdocController {
         msg.setMsg_len(8);
         msg.setMsg_body(ByteUtils.getByteArray(value));
         msg.setImei(imei);
-        System.out.println("发送="+dcc_client.dcc_msg_send(socket, msg));
+       dcc_client.dcc_msg_send(socket, msg);
 
-        Thread.sleep(300);
 
-        //接受数据
-        msg = new dcc_msg();
-        System.out.print("返回="+dcc_client.dcc_msg_recv(socket, msg));
 
          //说明发送成功
     }
