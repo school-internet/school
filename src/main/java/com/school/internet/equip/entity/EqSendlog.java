@@ -1,5 +1,7 @@
 package com.school.internet.equip.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,6 +22,7 @@ public class EqSendlog implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "pk_sendlog",type = IdType.ASSIGN_ID)
     private String pkSendlog;
 
     private String sendTime;
@@ -30,9 +33,11 @@ public class EqSendlog implements Serializable {
 
     private String resultValue;
 
-    private BigDecimal state;
+    private int userId;
 
-    private BigDecimal dr;
+    private Integer state;
+
+    private Integer dr;
 
     private String ts;
 
