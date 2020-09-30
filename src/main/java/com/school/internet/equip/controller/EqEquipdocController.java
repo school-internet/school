@@ -7,8 +7,12 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.school.internet.corn.config.*;
 import com.school.internet.equip.entity.EqEquipdoc;
+import com.school.internet.equip.entity.EqSendlog;
 import com.school.internet.equip.entity.EquipdocVO;
 import com.school.internet.equip.service.IEqEquipdocService;
+import com.school.internet.equip.service.IEqSendlogService;
+import com.school.internet.utils.DateTimeUtils;
+import com.school.internet.utils.MsgUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +33,8 @@ public class EqEquipdocController {
 
     @Autowired
     private IEqEquipdocService iEqEquipdocService;
+    @Autowired
+    private IEqSendlogService iEqSendlogService;
 
     @PostMapping("pageEqEquipdoc")
     public MSPage<EquipdocVO>  pagelist( Integer pageNo, Integer pageSize,EquipdocVO equipdocVO){
@@ -69,21 +75,24 @@ public class EqEquipdocController {
 
 
     @GetMapping("sendMsg")
-    public Integer sendMsg(String imei,String value)  throws Exception{
+    public Integer sendMsg(String pkEquipdoc,String value,String imei)  throws Exception{
         SocketChannel socket = dcc_client.dcc_Socket("iot.harvestcloud.cn", 9877);
 
         //数据包格式看mserver相关手册
         //发送广播
+        Integer  values = MsgUtil.sendMsg(imei,value);
+        EqSendlog  eqSendlog  = new EqSendlog();
+        eqSendlog.setFkEquipdoc(pkEquipdoc);
+        eqSendlog.setSendTime(DateTimeUtils.formatTime());
+        eqSendlog.setResultValue("成功");
+        eqSendlog.setState(values);
+        eqSendlog.setInstructValue(value);
+        iEqSendlogService.save(eqSendlog);
 
-        dcc_msg msg = new dcc_msg();
-        msg.setMsg_type((byte) 0x00);
-        msg.setMsg_len(8);
-        msg.setMsg_body(ByteUtils.getByteArray(value));
-        msg.setImei(imei);
-       return  dcc_client.dcc_msg_send(socket, msg);
+        return 0;
 
-
-
-         //说明发送成功
     }
+
+
+
 }
