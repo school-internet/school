@@ -42,5 +42,4 @@ public class EqSendlogController {
         return PageUtils.page(iEqSendlogService.page(page,queryWrapper));
 
     }
-
 }
