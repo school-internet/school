@@ -25,10 +25,6 @@ public class EqReceiveController {
     private IEqReceiveService  iEqReceiveService;
 
 
-    //查找设备机型当前最新状态
-    @GetMapping("selectState")
-    public EqReceive  selectState(String pkEquipdoc){
-               return iEqReceiveService.selectState(pkEquipdoc);
-    }
+
 
 }

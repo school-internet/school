@@ -16,6 +16,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface EqReceiveMapper extends BaseMapper<EqReceive> {
 
-    EqReceive  selectState(String pkEquipdoc);
+
 
 }

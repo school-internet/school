@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.school.internet.equip.entity.EqEquipdoc;
+import com.school.internet.equip.entity.EqReceive;
 import com.school.internet.equip.entity.EquipdocVO;
+import com.school.internet.equip.entity.ReviceVO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,4 +26,6 @@ public interface IEqEquipdocService extends IService<EqEquipdoc> {
 
 
     List<EquipdocVO> selectEquipdoc(String imei);
+
+    ReviceVO selectState(String pkEquipdoc);
 }

@@ -14,5 +14,5 @@ import com.school.internet.equip.entity.EqReceive;
 public interface IEqReceiveService extends IService<EqReceive> {
 
 
-    EqReceive  selectState(String pkEquipdoc);
+
 }
