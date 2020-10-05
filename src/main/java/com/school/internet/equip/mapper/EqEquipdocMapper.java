@@ -9,6 +9,8 @@ import com.school.internet.equip.entity.EquipdocVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -22,4 +24,6 @@ public interface EqEquipdocMapper extends BaseMapper<EqEquipdoc> {
 
 
     IPage<EquipdocVO>  pageEquip(Page page, @Param("model")EqEquipdoc eqEquipdoc);
+
+    List<EquipdocVO> selectEquip(String imei);
 }

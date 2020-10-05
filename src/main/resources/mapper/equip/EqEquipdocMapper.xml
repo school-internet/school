@@ -12,6 +12,12 @@
             and a.equip_name = #{model.equipName}
         </if>
     </select>
+
+
+    <select id="selectEquip"  resultType="com.school.internet.equip.entity.EquipdocVO">
+        select   *  from eq_equipdoc   a  left  join  eq_type   b  on  a.fk_equiptype = b.pk_equiptype  where  a.dr =0  and  b.dr =0  AND a.imei  = #{imei}
+
+    </select>
     
     
 </mapper>

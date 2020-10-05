@@ -17,7 +17,7 @@ import java.util.List;
  * @author jobob
  * @since 2020-09-19
  */
-@Service
+
 public interface IEqRuleService extends IService<EqRule> {
 
 

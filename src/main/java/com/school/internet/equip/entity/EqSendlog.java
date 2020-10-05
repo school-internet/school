@@ -2,11 +2,13 @@ package com.school.internet.equip.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.school.internet.corn.config.ByteUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * <p>
@@ -39,7 +41,6 @@ public class EqSendlog implements Serializable {
 
     private Integer dr;
 
-    private String ts;
-
+    private Date ts;
 
 }

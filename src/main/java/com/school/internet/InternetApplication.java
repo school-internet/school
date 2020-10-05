@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import javax.servlet.SessionTrackingMode;
 import java.util.Collections;
 
 @SpringBootApplication
+@EnableScheduling
 @MapperScan("com.school.internet.*.mapper")
 public class InternetApplication extends SpringBootServletInitializer {
 
@@ -28,9 +30,6 @@ public class InternetApplication extends SpringBootServletInitializer {
         sessionCookieConfig.setHttpOnly(true);
     }
 
-    @Bean
-    public OptimisticLockerInterceptor optimisticLockerInterceptor() {
-        return new OptimisticLockerInterceptor();
-    }
+
 
 }

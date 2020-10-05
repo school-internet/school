@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.school.internet.receive.mapper.EqReceiveMapper">
+
+
+
+    <select id="selectstate"  resultType="com.school.internet.equip.entity.ReviceVO">
+        SELECT  *  from  eq_receive a join  eq_equipdoc  b   on a.pk_equipdoc = b.pk_equipdoc   where 1=1
+
+        <if test="pkEquipdoc != null ">
+            and a.pk_equipdoc = #{pkEquipdoc}
+        </if>
+         order  by  create_time  desc  limit  1
+    </select>
+
+</mapper>

@@ -1,5 +1,14 @@
 package com.school.internet.corn.config;
 
+
+import com.school.internet.equip.entity.EqReceive;
+
+import com.school.internet.equip.entity.EquipdocVO;
+import com.school.internet.equip.mapper.EqEquipdocMapper;
+import com.school.internet.equip.service.impl.EqEquipdocServiceImpl;
+import com.school.internet.equip.service.impl.EqReceiveServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -7,8 +16,11 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
-public class dcc_client {
+
+@Component
+public class Dcc_client {
 	public static final String ENCODING = "utf-8";
 	static final byte g_hdr_id[] = { 0x7e, 0x7e, 0x7e, 0x7e };
 	public static final int IMEI_LEN = 15;
@@ -24,7 +36,18 @@ public class dcc_client {
 	private static final byte DC_MSG_AUTH_RESULT = 0x51;
 	private static final byte AUTHRESULT_PASSED = 0x00;
 
-	public static SocketChannel dcc_Socket(String dc_ip, int mServerPort) {
+
+
+   @Autowired
+	private EqEquipdocServiceImpl iEqEquipdocService;
+
+   @Autowired
+	private EqReceiveServiceImpl iEqReceiveService;
+
+
+
+
+	public  SocketChannel dcc_Socket(String dc_ip, int mServerPort) {
 		// 返回SocketChannel实例，并绑定SocketAddress
 		try {
 			SocketAddress add = new InetSocketAddress(dc_ip, mServerPort);
@@ -38,27 +61,27 @@ public class dcc_client {
 		}
 	}
 
-	public static BufferedReader dcc_instream(Socket socket) throws IOException {
+	public  BufferedReader dcc_instream(Socket socket) throws IOException {
 		BufferedReader Input = new BufferedReader(new InputStreamReader(socket
 				.getInputStream()));
 		return Input;
 	}
 
-	public static PrintWriter dcc_getWriter(Socket socket) throws IOException {
+	public  PrintWriter dcc_getWriter(Socket socket) throws IOException {
 		OutputStream socketOut = socket.getOutputStream();
 		PrintWriter writer = new PrintWriter(socketOut, true);
 		return writer;
 
 	}
 
-	public static int dcc_msg_send(SocketChannel socket, dcc_msg msg)
+	public  int dcc_msg_send(SocketChannel socket, dcc_msg msg)
 			throws IOException {
 		ByteBuffer result = dcc_msg_encoder(msg);
 		socket.write(result);
 		return 0;
 	}
 
-	public static int dcc_msg_recv(SocketChannel socket, dcc_msg msg)
+	public  int dcc_msg_recv(SocketChannel socket, dcc_msg msg)
 			throws IOException {
 		ByteBuffer buffer = ByteBuffer.allocate(HEAD_ID_LEN + IMEI_LEN + 1
 				+ DTU_NAME + 1 + 4);
@@ -99,8 +122,8 @@ public class dcc_client {
 			System.arraycopy(buff.array(), 0, message, 40, buff.array().length);
 			// buffer.clear();
 			buffer.clear();
-			// System.out.println("Reveice msg："+new String(message));
-			dcc_msg_decoder(message, msg);
+			 System.out.println("Reveice msg："+new String(message));
+			dcc_msg_decoder2(message, msg);
 		}
 
 		return len;
@@ -124,7 +147,7 @@ public class dcc_client {
 		byteBuf.put(g_hdr_id);
 
 		// 16位imei
-		byteBuf.put(msg.getImei().getBytes(dcc_client.ENCODING));
+		byteBuf.put(msg.getImei().getBytes(Dcc_client.ENCODING));
 		byte empty = 0x00;
 		byteBuf.put(empty);
 
@@ -152,6 +175,11 @@ public class dcc_client {
 		byteBuf.flip();
 		return byteBuf;
 	}
+
+
+	//接收解析
+
+
 
 	public static void dcc_msg_decoder(byte ptr[], dcc_msg msg)
 			throws IOException {
@@ -192,7 +220,7 @@ public class dcc_client {
 		index += msg.getMsg_len();
 	}
 
-	public static int dcc_msg_send_auth(SocketChannel socket, String username,
+	public  int dcc_msg_send_auth(SocketChannel socket, String username,
 			String password) throws InterruptedException, IOException,
 			NoSuchAlgorithmException {
 		int i, ret;
@@ -257,6 +285,115 @@ public class dcc_client {
 		else
 			return -1;
 
+	}
+
+
+	public     void dcc_msg_decoder2(byte ptr[], dcc_msg msg)
+			throws IOException {
+		int index = g_hdr_id.length;
+		// imei
+		byte[] Imeichar = new byte[IMEI_LEN];
+		System.arraycopy(ptr, index, Imeichar, 0, IMEI_LEN);
+           String imei  =new String(Imeichar);
+		 List<EquipdocVO> eqEquipdoc =  iEqEquipdocService.selectEquipdoc(imei);
+		 if(eqEquipdoc ==null||eqEquipdoc.size()==0){
+		 	throw  new IOException("没有本设备");
+		 }
+		msg.setImei(new String(Imeichar));
+
+		index += IMEI_LEN + 1;
+
+		// name
+		byte[] Namechar = new byte[DTU_NAME];
+		System.arraycopy(ptr, index, Namechar, 0, DTU_NAME);
+		msg.setName(new String(Namechar));
+		index += DTU_NAME + 1;
+
+		// msg type
+		msg.setMsg_type(ptr[index]);
+		index += 1;
+
+		// reserved
+		msg.setReserved(ptr[index]);
+		index += 1;
+
+		// length
+		//int len = ptr[index] * 256 + ptr[index + 1];
+		int h = 0xff & ptr[index];
+		int l = 0xff & ptr[index + 1];
+		int len = (h << 8) | l;
+
+		msg.setMsg_len((short) len);
+		index += 2;
+
+		// msg body
+		byte[] Bodychar = new byte[len];
+		System.arraycopy(ptr, index, Bodychar, 0, msg.getMsg_len());
+
+
+		if (msg.getMsg_type() == (byte) 0) {
+			String msgBody = bytesToHex(Bodychar);
+               EquipdocVO  vo = new EquipdocVO();
+			if (msgBody.length() == 12) {
+				for(EquipdocVO equipdoc :eqEquipdoc){
+                          if(equipdoc.getTypeName().equals("继电器")){
+                          	vo =equipdoc;
+						  }else{
+							  new IOException("没有本设备类型");
+						  }
+				}
+				//读取继电器状态
+				String flag = msgBody.substring(6, 8);
+				//8位电路的数值
+				String result = ByteUtils.hexString2binaryString(flag);
+				//解析中间的2位数值转换成2进制不足的之前补0
+				EqReceive eqReveive  = new EqReceive();
+				eqReveive.setState(0);
+				//PANDUAN
+				eqReveive.setPkEquipdoc(vo.getPkEquipdoc());
+				eqReveive.setBodyValue(msgBody);
+				eqReveive.setReceiveValue(result);
+				eqReveive.setPort8(result.substring(0,1));
+				eqReveive.setPort7(result.substring(1,2));
+				eqReveive.setPort6(result.substring(2,3));
+				eqReveive.setPort5(result.substring(3,4));
+				eqReveive.setPort4(result.substring(4,5));
+				eqReveive.setPort3(result.substring(5,6));
+				eqReveive.setPort2(result.substring(6,7));
+				eqReveive.setPort1(result.substring(7,8));
+
+				iEqReceiveService.save(eqReveive);
+				//这个时候获取继电器的装药
+				System.out.println("flag---" + flag);
+				//convert(flag, map, tag);
+
+				//latch.countDown();
+			} else if (msgBody.length() == 42) {
+				//读取温湿度
+				//	convertTemp(msgBody, box, map, tag);
+
+				//latch.countDown();
+			}
+		}
+		//logger.error("tag: " + tag + ", msg_body: " + bytesToHex(Bodychar));
+
+		msg.setMsg_body(Bodychar);
+		index += msg.getMsg_len();
+		System.out.print("22222msg="+ ByteUtils.getHexString(msg.getMsg_body()));
+
+	}
+
+
+	public static String bytesToHex(byte[] bytes) {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < bytes.length; i++) {
+			String hex = Integer.toHexString(bytes[i] & 0xFF);
+			if (hex.length() < 2) {
+				sb.append(0);
+			}
+			sb.append(hex);
+		}
+		return sb.toString();
 	}
 
 }
