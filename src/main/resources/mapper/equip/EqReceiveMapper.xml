@@ -4,13 +4,6 @@
 
 
 
-    <select id="selectstate"  resultType="com.school.internet.equip.entity.ReviceVO">
-        SELECT  *  from  eq_receive a join  eq_equipdoc  b   on a.pk_equipdoc = b.pk_equipdoc   where 1=1
 
-        <if test="pkEquipdoc != null ">
-            and a.pk_equipdoc = #{pkEquipdoc}
-        </if>
-         order  by  create_time  desc  limit  1
-    </select>
 
 </mapper>

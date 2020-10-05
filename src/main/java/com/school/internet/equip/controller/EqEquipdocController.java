@@ -4,9 +4,7 @@ package com.school.internet.equip.controller;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.school.internet.corn.config.*;
-import com.school.internet.equip.entity.EqEquipdoc;
-import com.school.internet.equip.entity.EqSendlog;
-import com.school.internet.equip.entity.EquipdocVO;
+import com.school.internet.equip.entity.*;
 import com.school.internet.equip.service.IEqEquipdocService;
 import com.school.internet.equip.service.IEqSendlogService;
 import com.school.internet.utils.DateTimeUtils;
@@ -91,6 +89,10 @@ public class EqEquipdocController {
 
     }
 
-
+    //查找设备机型当前最新状态
+    @GetMapping("selectState")
+    public ReviceVO selectState(String pkEquipdoc){
+        return iEqEquipdocService.selectState(pkEquipdoc);
+    }
 
 }

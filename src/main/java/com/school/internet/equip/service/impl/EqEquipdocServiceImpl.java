@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.school.internet.corn.config.PageUtils;
 import com.school.internet.equip.entity.EqEquipdoc;
 import com.school.internet.equip.entity.EquipdocVO;
+import com.school.internet.equip.entity.ReviceVO;
 import com.school.internet.equip.mapper.EqEquipdocMapper;
 import com.school.internet.equip.service.IEqEquipdocService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,11 @@ public class EqEquipdocServiceImpl extends ServiceImpl<EqEquipdocMapper, EqEquip
     @Override
     public List<EquipdocVO> selectEquipdoc(String imei) {
         return eqEquipdocMapper.selectEquip(imei);
+    }
+
+    @Override
+    public ReviceVO selectState(String pkEquipdoc) {
+        return eqEquipdocMapper.selectState(pkEquipdoc);
     }
 
 

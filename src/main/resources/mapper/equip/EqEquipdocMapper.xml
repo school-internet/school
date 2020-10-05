@@ -18,6 +18,15 @@
         select   *  from eq_equipdoc   a  left  join  eq_type   b  on  a.fk_equiptype = b.pk_equiptype  where  a.dr =0  and  b.dr =0  AND a.imei  = #{imei}
 
     </select>
+
+    <select id="selectstate"  resultType="com.school.internet.equip.entity.ReviceVO">
+        SELECT  *  from    eq_equipdoc  b  left join  eq_receive a  on a.pk_equipdoc = b.pk_equipdoc   where 1=1
+
+        <if test="pkEquipdoc != null ">
+            and a.pk_equipdoc = #{pkEquipdoc}
+        </if>
+        order  by  create_time  desc  limit  1
+    </select>
     
     
 </mapper>
