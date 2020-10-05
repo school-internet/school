@@ -38,7 +38,7 @@ public class EqSendlogController {
         page.setCurrent(pageNo);
         page.setSize(pageSize);
         QueryWrapper<EqSendlog> queryWrapper  = new QueryWrapper<>();
-        queryWrapper.eq("fkEquipdoc",eqSendlog.getFkEquipdoc());
+//        queryWrapper.eq("fkEquipdoc",eqSendlog.getFkEquipdoc());
         return PageUtils.page(iEqSendlogService.page(page,queryWrapper));
 
     }

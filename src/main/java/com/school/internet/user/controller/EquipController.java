@@ -82,6 +82,8 @@ public class EquipController {
         return "equip/detailsequip";
     }
 
+
+
     @GetMapping("sendInstructs")
     public String sendInstructs(String pkEquipdoc,String imei,String fkEquiptype,ModelMap modelMap){
         LambdaQueryWrapper<EqInstruct> lambdaQueryWrapper = new LambdaQueryWrapper<>();

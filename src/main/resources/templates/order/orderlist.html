@@ -15,34 +15,8 @@
                 </div>
                 <div class="ibox-content">
 
-                    <table class="table table-striped table-bordered table-hover dataTables-example">
-                        <thead>
-                        <tr>
-                            <th>设备</th>
-                            <th>编码</th>
-                            <th>类型</th>
-                            <th>IP</th>
-                            <th>端口</th>
-                            <th>状态</th>
-                            <th>上次发送时间</th>
-                            <th>上次发送状态</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>风机1#箱</td>
-                            <td>0001</td>
-                            <td>风机</td>
-                            <td>172.16.28.185</td>
-                            <td>8889</td>
-                            <td>在线</td>
-                            <td>2020-09-16 14:00:00</td>
-                            <td>成功</td>
-                            <td><a href="jacascript:void(0)">发送</a>&nbsp;</td>
-                        </tr>
+                    <table id="equiptable"  data-mobile-responsive="true">
 
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -52,5 +26,88 @@
 </div>
 
 <@common.js/>
+<script src="/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/plugins/bootstrap-table/bootstrap-table-object.js"></script>
+<!-- layer -->
+<script src="/plugins/layer/layer.js"></script>
+<script>
+    var queryMap = new Object(); //table查询条件
+    queryMap["query"] = false;
+    var table = null;
+    $(document).ready(function () {
+        //初始化Table
+        var tableobj = new Object();
+        tableobj.tableid = "equiptable";
+        tableobj.initColumn = function () {
+            return [{
+                field: 'equipName',
+                title: '设备名称'
+            },{
+                field: 'equipCode',
+                title: '设备编码'
+            },{
+                field: 'imei',
+                title: 'IMEI'
+            },{
+                field: 'typeName',
+                title: '机型'
+            },{
+                field: 'state',
+                title: '状态',
+                formatter:function (value, row, index){
+                    if(row.state==0){
+                        return '正常';
+                    }else if(row.state==1){
+                        return '暂停';
+                    }
+                }
+            },{
+                field: 'location',
+                title: '位置'
+            },{
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                width: 100,
+                valign: 'middle',
+                formatter: operateFormatter,
+                events: operateEvents
+            }];
+        };
+        var defaultColunms = tableobj.initColumn();
+        table = new BSTable(tableobj.tableid, "/equip/eq-equipdoc/pageEqEquipdoc","pkEquipdoc", defaultColunms);
+        tableobj.table = table.init();
+
+
+    })
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="send" style="margin-left:10px" href="javascript:void(0)" title="下发">',
+            '下发',
+            '</a>'
+        ].join('');
+    };
+    window.operateEvents = {
+        'click .send': function (e, value, row, index) {
+            parent.layer.open({
+                type: 2,
+                title: '设备下发',
+                shadeClose: false,
+                shade: 0.1,
+                shift:2,
+                area: ['60%', '80%'],
+                content: '/equip/sendInstructs?fkEquiptype='+row.fkEquiptype+'&pkEquipdoc='+row.pkEquipdoc+'&imei='+row.imei,
+                cancel: function(){
+                    table.refresh();
+                },
+                end:function () {
+                    table.refresh();
+                }
+            });
+
+        }
+    };
+</script>
 </body>
 </html>

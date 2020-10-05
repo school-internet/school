@@ -19,36 +19,8 @@
                 </div>
                 <div class="ibox-content">
 
-                    <table class="table table-striped table-bordered table-hover dataTables-example">
-                        <thead>
-                        <tr>
-                            <th>设备</th>
-                            <th>编码</th>
-                            <th>类型</th>
-                            <th>IP</th>
-                            <th>端口</th>
-                            <th>发送状态</th>
-                            <th>发送时间</th>
-                            <th>发送指令</th>
-                            <th>返回指令</th>
+                    <table id="logtable"  data-mobile-responsive="true">
 
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>风机1#箱</td>
-                            <td>0001</td>
-                            <td>风机</td>
-                            <td>172.16.28.185</td>
-                            <td>8889</td>
-                            <td>成功</td>
-                            <td>2020-09-16 14:00:00</td>
-                            <td>0001040100</td>
-                            <td>0001040100</td>
-
-                        </tr>
-
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -58,5 +30,43 @@
 </div>
 
 <@common.js/>
+<script src="/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/plugins/bootstrap-table/bootstrap-table-object.js"></script>
+<script>
+    var queryMap = new Object(); //table查询条件
+    queryMap["query"] = false;
+    var table = null;
+    $(document).ready(function () {
+        //初始化Table
+        var tableobj = new Object();
+        tableobj.tableid = "logtable";
+        tableobj.initColumn = function () {
+            return [{
+                field: 'sendTime',
+                title: '发送时间'
+            },{
+                field: 'instructValue',
+                title: '发送指令'
+            },{
+                field: 'resultValue',
+                title: '返回'
+            },{
+                field: 'state',
+                title: '状态',
+                formatter:function (value, row, index){
+                    if(row.state==0){
+                        return '成功';
+                    }else if(row.state==1){
+                        return '失败';
+                    }
+                }
+            }];
+        };
+        var defaultColunms = tableobj.initColumn();
+        table = new BSTable(tableobj.tableid, "/equip/eq-sendlog/pageEqSend","pkSendlog", defaultColunms);
+        tableobj.table = table.init();
+    })
+</script>
 </body>
 </html>
