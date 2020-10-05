@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<@common.header/>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>设备详情</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="m-b-md">
+                                <h2>${reviceVO.equipName}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>设备编码：</dt>
+                                <dd>${reviceVO.equipCode}</dd>
+                                <dt>IMEI：</dt>
+                                <dd>${reviceVO.imei}</dd>
+                                <dt>位置：</dt>
+                                <dd>${reviceVO.location}</dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>机型：</dt>
+                                <dd>${reviceVO.typeName}</dd>
+                                <dt>状态：</dt>
+                                <dd><#if reviceVO.state==0>正常<#else>暂停</#if></dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>端口1：</dt>
+                                <dd><#if reviceVO.port1=='0'>断开<#else>闭合</#if></dd>
+                                <dt>端口3：</dt>
+                                <dd><#if reviceVO.port3=='0'>断开<#else>闭合</#if></dd>
+                                <dt>端口5：</dt>
+                                <dd><#if reviceVO.port5=='0'>断开<#else>闭合</#if></dd>
+                                <dt>端口7：</dt>
+                                <dd><#if reviceVO.port7=='0'>断开<#else>闭合</#if></dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>端口2：</dt>
+                                <dd><#if reviceVO.port2=='0'>断开<#else>闭合</#if></dd>
+                                <dt>端口4：</dt>
+                                <dd><#if reviceVO.port4=='0'>断开<#else>闭合</#if></dd>
+                                <dt>端口6：</dt>
+                                <dd><#if reviceVO.port6=='0'>断开<#else>闭合</#if></dd>
+                                <dt>端口8：</dt>
+                                <dd><#if reviceVO.port8=='0'>断开<#else>闭合</#if></dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<@common.js/>
+</body>
+</html>

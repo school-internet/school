@@ -28,7 +28,7 @@
                         <tr>
                             <td>${instruct.instructName}</td>
                             <td>${instruct.instructValue}</td>
-                            <td><a href="javascript:void(0);" onclick="sendinstruct('${instruct.pkInstruct}')">发送</a></td>
+                            <td><a href="javascript:void(0);" onclick="sendinstruct('${instruct.instructValue}')">发送</a></td>
                         </tr>
                         </#list>
                         </tbody>
@@ -46,20 +46,22 @@
 <script>
     $(document).ready(function () {
 
-    function sendinstruct(pkInstruct){
+    });
+
+    function sendinstruct(instructValue){
         swal({
-            title: "您确定要删除这条信息吗",
-            text: "删除后将无法恢复，请谨慎操作！",
-            type: "warning",
+            title: "您确定要发送吗",
+            text: "发送该设备指令！",
+            type: "info",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
-            confirmButtonText: "删除",
+            confirmButtonText: "确定",
             closeOnConfirm: false
         }, function () {
             var index = null;
             $.ajax({
                 type: "GET",
-                url:"/equip/eq-instruct/removeInstruct?pkInstruct="+pkInstruct,
+                url:"/equip/eq-equipdoc/sendMsg?pkEquipdoc=${pkEquipdoc}&imei=${imei}&value="+instructValue,
                 async: false,
                 beforeSend: function () {
 
@@ -71,9 +73,12 @@
                     alert("Connection error");
                 },
                 success: function(data) {
-                    swal({title :"成功！", text :"您已经操作成功。", type :"success"},function(){
+                    if(data == 0){
+                        swal({title :"成功！", text :"您已经操作成功。", type :"success"},function(){
 
-                    });
+                        });
+                    }
+
                 }
             });
         });

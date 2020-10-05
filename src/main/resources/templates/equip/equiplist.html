@@ -102,6 +102,9 @@
     })
     function operateFormatter(value, row, index) {
         return [
+            '<a class="details" style="margin-left:10px" href="javascript:void(0)" title="详情">',
+            '详情',
+            '</a>',
             '<a class="edit" style="margin-left:10px" href="javascript:void(0)" title="修改">',
             '修改',
             '</a>',
@@ -114,7 +117,23 @@
         ].join('');
     };
     window.operateEvents = {
+        'click .details':function(e, value, row, index){
+            parent.layer.open({
+                type: 2,
+                title: '设备详情',
+                shadeClose: false,
+                shade: 0.1,
+                shift:2,
+                area: ['100%', '100%'],
+                content: '/equip/detailsEquip?pkEquipdoc='+row.pkEquipdoc,
+                cancel: function(){
 
+                },
+                end:function () {
+
+                }
+            });
+        },
         'click .edit': function (e, value, row, index) {
             parent.layer.open({
                 type: 2,
@@ -173,7 +192,7 @@
                 shade: 0.1,
                 shift:2,
                 area: ['60%', '80%'],
-                content: '/equip/sendInstructs?fkEquiptype='+row.fkEquiptype+'&pkEquipdoc='+row.pkEquipdoc,
+                content: '/equip/sendInstructs?fkEquiptype='+row.fkEquiptype+'&pkEquipdoc='+row.pkEquipdoc+'&imei='+row.imei,
                 cancel: function(){
                     table.refresh();
                 },

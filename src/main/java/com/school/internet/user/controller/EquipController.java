@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.school.internet.equip.entity.EqEquipdoc;
 import com.school.internet.equip.entity.EqInstruct;
 import com.school.internet.equip.entity.EqType;
+import com.school.internet.equip.entity.ReviceVO;
 import com.school.internet.equip.service.IEqEquipdocService;
 import com.school.internet.equip.service.IEqInstructService;
 import com.school.internet.equip.service.impl.EqEquipdocServiceImpl;
@@ -74,12 +75,20 @@ public class EquipController {
         return "equip/instructlist";
     }
 
+    @GetMapping("detailsEquip")
+    public String detailsEquip(String pkEquipdoc,ModelMap modelMap){
+        ReviceVO reviceVO = iEqEquipdocService.selectState(pkEquipdoc);
+        modelMap.put("reviceVO",reviceVO);
+        return "equip/detailsequip";
+    }
+
     @GetMapping("sendInstructs")
-    public String sendInstructs(String pkEquipdoc,String fkEquiptype,ModelMap modelMap){
+    public String sendInstructs(String pkEquipdoc,String imei,String fkEquiptype,ModelMap modelMap){
         LambdaQueryWrapper<EqInstruct> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(EqInstruct::getDr,0);
         lambdaQueryWrapper.eq(EqInstruct::getFkEquiptype,fkEquiptype);
         List<EqInstruct> instructs = iEqInstructService.list(lambdaQueryWrapper);
+        modelMap.put("imei",imei);
         modelMap.put("instructs",instructs);
         modelMap.put("fkEquiptype",fkEquiptype);
         modelMap.put("pkEquipdoc",pkEquipdoc);
