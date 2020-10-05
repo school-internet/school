@@ -11,6 +11,8 @@ import com.school.internet.equip.service.IEqEquipdocService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -32,4 +34,11 @@ public class EqEquipdocServiceImpl extends ServiceImpl<EqEquipdocMapper, EqEquip
       return eqEquipdocMapper.pageEquip(page,eqEquipdoc);
 
     }
+
+    @Override
+    public List<EquipdocVO> selectEquipdoc(String imei) {
+        return eqEquipdocMapper.selectEquip(imei);
+    }
+
+
 }

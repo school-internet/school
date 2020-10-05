@@ -7,6 +7,8 @@ import com.school.internet.equip.entity.EqEquipdoc;
 import com.school.internet.equip.entity.EquipdocVO;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -19,4 +21,7 @@ public interface IEqEquipdocService extends IService<EqEquipdoc> {
 
 
     IPage<EquipdocVO>  pageEquipdoc(Page page, EqEquipdoc eqEquipdoc);
+
+
+    List<EquipdocVO> selectEquipdoc(String imei);
 }

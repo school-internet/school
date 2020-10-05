@@ -1,8 +1,6 @@
 package com.school.internet.equip.controller;
 
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.school.internet.corn.config.*;
@@ -14,7 +12,6 @@ import com.school.internet.equip.service.IEqSendlogService;
 import com.school.internet.utils.DateTimeUtils;
 import com.school.internet.utils.MsgUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.channels.SocketChannel;
@@ -76,6 +73,7 @@ public class EqEquipdocController {
 
     @GetMapping("sendMsg")
     public Integer sendMsg(String pkEquipdoc,String value,String imei)  throws Exception{
+        Dcc_client dcc_client = new Dcc_client();
         SocketChannel socket = dcc_client.dcc_Socket("iot.harvestcloud.cn", 9877);
 
         //数据包格式看mserver相关手册
