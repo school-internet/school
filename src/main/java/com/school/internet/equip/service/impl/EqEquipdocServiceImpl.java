@@ -43,7 +43,7 @@ public class EqEquipdocServiceImpl extends ServiceImpl<EqEquipdocMapper, EqEquip
 
     @Override
     public ReviceVO selectState(String pkEquipdoc) {
-        return eqEquipdocMapper.selectState(pkEquipdoc);
+        return eqEquipdocMapper.equipselect(pkEquipdoc);
     }
 
 

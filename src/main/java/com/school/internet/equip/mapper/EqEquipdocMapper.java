@@ -29,5 +29,5 @@ public interface EqEquipdocMapper extends BaseMapper<EqEquipdoc> {
 
     List<EquipdocVO> selectEquip(String imei);
 
-    ReviceVO selectState(String pkEquipdoc);
+    ReviceVO equipselect(String pkEquipdoc);
 }
