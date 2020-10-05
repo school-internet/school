@@ -21,9 +21,5 @@ public class EqReceiveServiceImpl extends ServiceImpl<EqReceiveMapper, EqReceive
 
     @Autowired
     private EqReceiveMapper eqReceiveMapper;
-    @Override
-    public EqReceive selectState(String pkEquipdoc) {
-      return   eqReceiveMapper.selectState(pkEquipdoc);
 
-    }
 }
