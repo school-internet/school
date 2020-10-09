@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <@common.header/>
+<link href="/cssplugins/switchery/switchery.css" rel="stylesheet">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -14,25 +15,119 @@
                     <h5>类型指令</h5>
                 </div>
                 <div class="ibox-content">
-
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>指令名</th>
-                            <th>指令值</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <#list instructs as instruct>
-                        <tr>
-                            <td>${instruct.instructName}</td>
-                            <td>${instruct.instructValue}</td>
-                            <td><a href="javascript:void(0);" onclick="sendinstruct('${instruct.instructValue}')">发送</a></td>
-                        </tr>
-                        </#list>
-                        </tbody>
-                    </table>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>端口1：</dt>
+                                <dd>
+                                <div class="switch">
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" <#if reviceVO.port1=='0'>checked</#if>  class="onoffswitch-checkbox" id="port1">
+                                        <label class="onoffswitch-label" for="port1">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                </dd>
+                                <dt>端口3：</dt>
+                                <dd>
+                                <div class="switch">
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" <#if reviceVO.port3=='0'>checked</#if>  class="onoffswitch-checkbox" id="port3">
+                                        <label class="onoffswitch-label" for="port3">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                     </div>
+                                </div>
+                                </dd>
+                                <dt>端口5：</dt>
+                                <dd>
+                                <div class="switch">
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" <#if reviceVO.port5=='0'>checked</#if>  class="onoffswitch-checkbox" id="port5">
+                                    <label class="onoffswitch-label" for="port5">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                    </div>
+                                </div>
+                                </dd>
+                                <dt>端口7：</dt>
+                                <dd>
+                                    <div class="switch">
+                                        <div class="onoffswitch">
+                                            <input type="checkbox" <#if reviceVO.port7=='0'>checked</#if>  class="onoffswitch-checkbox" id="port7">
+                                        <label class="onoffswitch-label" for="port7">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                        </div>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>端口2：</dt>
+                                <dd>
+                                    <div class="switch">
+                                        <div class="onoffswitch">
+                                            <input type="checkbox" <#if reviceVO.port2=='0'>checked</#if>  class="onoffswitch-checkbox" id="port2">
+                                        <label class="onoffswitch-label" for="port2">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                        </div>
+                                    </div>
+                                </dd>
+                                <dt>端口4：</dt>
+                                <dd>
+                                    <div class="switch">
+                                        <div class="onoffswitch">
+                                            <input type="checkbox" <#if reviceVO.port4=='0'>checked</#if>  class="onoffswitch-checkbox" id="port4">
+                                        <label class="onoffswitch-label" for="port4">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                    </div>
+                                </dd>
+                                <dt>端口6：</dt>
+                                <dd>
+                                    <div class="switch">
+                                        <div class="onoffswitch">
+                                            <input type="checkbox" <#if reviceVO.port6=='0'>checked</#if>  class="onoffswitch-checkbox" id="port6">
+                                        <label class="onoffswitch-label" for="port6">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                        </div>
+                                    </div>
+                                </dd>
+                                <dt>端口8：</dt>
+                                <dd>
+                                    <div class="switch">
+                                        <div class="onoffswitch">
+                                            <input type="checkbox" <#if reviceVO.port8=='0'>checked</#if>  class="onoffswitch-checkbox" id="port8">
+                                        <label class="onoffswitch-label" for="port8">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                        </div>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <button class="btn btn-primary" type="button" onclick="sendinstructs()" >提交</button>
+                            </dl>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -43,11 +138,21 @@
 <@common.js/>
 <!-- layer -->
 <script src="/plugins/layer/layer.js"></script>
+<script src="/plugins/switchery/switchery.js"></script>
 <script>
     $(document).ready(function () {
 
     });
+    function sendinstructs(){
+        var clickCheckboxs = document.querySelectorAll('.onoffswitch-checkbox')
+        var structs = [];
+        for(var i = 0; i<clickCheckboxs.length; i++ ){
+            var struct = clickCheckboxs[i].id+","+clickCheckboxs[i].checked;
+            structs.push(struct)
+        }
+        sendinstruct(structs.join())
 
+    }
     function sendinstruct(instructValue){
         swal({
             title: "您确定要发送吗",
@@ -61,7 +166,7 @@
             var index = null;
             $.ajax({
                 type: "GET",
-                url:"/equip/eq-equipdoc/sendMsg?pkEquipdoc=${pkEquipdoc}&imei=${imei}&value="+instructValue,
+                url:"/equip/eq-equipdoc/sendjdq?pkEquipdoc=${pkEquipdoc}&structs="+instructValue,
                 async: false,
                 beforeSend: function () {
 

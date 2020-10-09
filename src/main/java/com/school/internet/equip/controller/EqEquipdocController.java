@@ -68,6 +68,17 @@ public class EqEquipdocController {
         iEqEquipdocService.update(updateWrapper);
     }
 
+    /**
+     * 继电器发送
+     * @param pkEquipdoc
+     * @param structs
+     */
+    @GetMapping("sendMsg")
+    public void sendjdq(String pkEquipdoc,String structs){
+        //指令格式 1:true,2:false,3:true....
+
+    }
+
 
     @GetMapping("sendMsg")
     public Integer sendMsg(String pkEquipdoc,String value,String imei)  throws Exception{

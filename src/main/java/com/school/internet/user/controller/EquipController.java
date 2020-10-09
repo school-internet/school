@@ -94,6 +94,8 @@ public class EquipController {
         modelMap.put("instructs",instructs);
         modelMap.put("fkEquiptype",fkEquiptype);
         modelMap.put("pkEquipdoc",pkEquipdoc);
+        ReviceVO reviceVO = iEqEquipdocService.selectState(pkEquipdoc);
+        modelMap.put("reviceVO",reviceVO);
         return "equip/sendinstructs";
     }
 

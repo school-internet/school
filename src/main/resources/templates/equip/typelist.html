@@ -49,7 +49,16 @@
                 title: '名称'
             },{
                 field: 'typeCode',
-                title: '编码'
+                title: '类型',
+                formatter:function (value, row, index){
+                    if(row.typeCode==1){
+                        return '继电器';
+                    }else if(row.typeCode==2){
+                        return '变频器';
+                    }else if(row.typeCode==3){
+                        return '风扇';
+                    }
+                }
             },{
                 field: 'state',
                 title: '状态',
@@ -95,17 +104,30 @@
         })
     })
     function operateFormatter(value, row, index) {
-        return [
-            '<a class="edit" style="margin-left:10px" href="javascript:void(0)" title="修改">',
-            '修改',
-            '</a>',
-            '<a class="del" style="margin-left:10px" href="javascript:void(0)" title="删除">',
-            '删除',
-            '</a>',
-            '<a class="instructs" style="margin-left:10px" href="javascript:void(0)" title="指令集">',
-            '指令集',
-            '</a>'
-        ].join('');
+        if(row.typeCode==1){
+            return [
+                '<a class="edit" style="margin-left:10px" href="javascript:void(0)" title="修改">',
+                '修改',
+                '</a>',
+                '<a class="del" style="margin-left:10px" href="javascript:void(0)" title="删除">',
+                '删除',
+                '</a>',
+                '<a class="instructs" style="margin-left:10px" href="javascript:void(0)" title="指令集">',
+                '指令集',
+                '</a>'
+            ].join('');
+        }else{
+            return [
+                '<a class="edit" style="margin-left:10px" href="javascript:void(0)" title="修改">',
+                '修改',
+                '</a>',
+                '<a class="del" style="margin-left:10px" href="javascript:void(0)" title="删除">',
+                '删除',
+                '</a>'
+
+            ].join('');
+        }
+
     };
     window.operateEvents = {
 
