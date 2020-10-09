@@ -16,6 +16,8 @@ public interface ISmUserService extends IService<SmUser> {
 
      SmUser querySmUser(String name,String password);
 
+     int  saveUser(SmUser smUser);
+
 
 
 }

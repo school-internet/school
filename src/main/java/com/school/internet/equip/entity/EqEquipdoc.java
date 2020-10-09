@@ -52,6 +52,8 @@ public class EqEquipdoc  implements Serializable {
 
     private int dr;
 
+    private BigDecimal random;
+
     @Version
     private Timestamp ts;
 

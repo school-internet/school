@@ -90,9 +90,5 @@ public class EqEquipdocController {
     }
 
     //查找设备机型当前最新状态
-    @GetMapping("selectState")
-    public ReviceVO selectState(String pkEquipdoc){
-        return iEqEquipdocService.selectState(pkEquipdoc);
-    }
 
 }

@@ -2,9 +2,11 @@ package com.school.internet.equip.entity;
 
 
 import lombok.Data;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Date;
 
 @Data
 public class EquipdocVO implements Serializable {
@@ -35,4 +37,9 @@ public class EquipdocVO implements Serializable {
     private String vuserdef5;
 
     private String typeName;
+
+    private Integer  random;
+
+
+    private String  sendTime;
 }

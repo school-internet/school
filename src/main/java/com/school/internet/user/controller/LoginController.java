@@ -51,10 +51,7 @@ public class LoginController {
     }
 
 
-    @PostMapping("saveUser")
-    public void  saveUser(SmUser smUser){
 
-    }
 
 
     @RequestMapping("main")
