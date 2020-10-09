@@ -49,13 +49,16 @@ public class EqEquipdoc  implements Serializable {
     private String vuserdef4;
 
     private String vuserdef5;
-
-    private int dr;
+    @TableLogic
+    private Integer dr;
 
     private BigDecimal random;
 
-    @Version
+
     private Timestamp ts;
+
+    @Version
+    private Integer  version;
 
 
 }

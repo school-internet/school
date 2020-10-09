@@ -1,11 +1,13 @@
 package com.school.internet.equip.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.school.internet.corn.config.*;
 import com.school.internet.equip.entity.*;
 import com.school.internet.equip.service.IEqEquipdocService;
+import com.school.internet.equip.service.IEqInstructService;
 import com.school.internet.equip.service.IEqSendlogService;
 import com.school.internet.utils.DateTimeUtils;
 import com.school.internet.utils.MsgUtil;
@@ -30,6 +32,8 @@ public class EqEquipdocController {
     private IEqEquipdocService iEqEquipdocService;
     @Autowired
     private IEqSendlogService iEqSendlogService;
+    @Autowired
+    private IEqInstructService iEqInstructService;
 
     @PostMapping("pageEqEquipdoc")
     public MSPage<EquipdocVO>  pagelist( Integer pageNo, Integer pageSize,EquipdocVO equipdocVO){
@@ -74,8 +78,33 @@ public class EqEquipdocController {
      * @param structs
      */
     @GetMapping("sendMsg")
-    public void sendjdq(String pkEquipdoc,String structs){
-        //指令格式 1:true,2:false,3:true....
+    public void sendjdq(String pkEquipdoc,String  imei,String structs){
+        //指令格式 1:true,2:false,3:true.... 以逗号截取8个口
+        Dcc_client dcc_client = new Dcc_client();
+        SocketChannel socket = dcc_client.dcc_Socket("iot.harvestcloud.cn", 9877);
+
+        //数据包格式看mserver相关手册
+        //发送广播
+
+        String[] array =  structs.split(",");
+        for(int i=0;i<array.length;i++){
+            String msg = array[i];
+            String[] param = msg.split(":");
+            QueryWrapper<EqInstruct> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("fk_equipdoc",pkEquipdoc);
+            queryWrapper.eq("port",param[0]);
+            queryWrapper.eq("state",param[1]);
+            EqInstruct eqInstruct= iEqInstructService.getOne(queryWrapper);
+           String value =  eqInstruct.getInstructValue();
+            MsgUtil.sendMsg(imei,value);
+        }
+        EqSendlog  eqSendlog  = new EqSendlog();
+        eqSendlog.setFkEquipdoc(pkEquipdoc);
+        eqSendlog.setSendTime(DateTimeUtils.formatTime());
+        eqSendlog.setResultValue("成功");
+        eqSendlog.setState(0);
+        eqSendlog.setInstructValue(structs);
+        iEqSendlogService.save(eqSendlog);
 
     }
 
