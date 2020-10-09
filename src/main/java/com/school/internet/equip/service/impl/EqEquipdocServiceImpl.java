@@ -44,8 +44,11 @@ public class EqEquipdocServiceImpl extends ServiceImpl<EqEquipdocMapper, EqEquip
              QueryWrapper<EqSendlog> queryWrapper = new QueryWrapper<>();
              queryWrapper.eq("fk_equipdoc",eqEquipdocs.getPkEquipdoc());
              queryWrapper.orderByDesc("send_time");
-             List<EqSendlog> eqSendlog =  eqSendlogMapper.selectList(queryWrapper);
-             eqEquipdocs.setSendTime(eqSendlog.get(0).getSendTime());
+             queryWrapper.last("limit 1");
+             EqSendlog eqSendlog =  eqSendlogMapper.selectOne(queryWrapper);
+             if(eqSendlog!=null) {
+                 eqEquipdocs.setSendTime(eqSendlog.getSendTime());
+             }
          }
          return eqEquipdocIPage;
     }
