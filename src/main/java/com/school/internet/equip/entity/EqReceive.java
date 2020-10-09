@@ -48,9 +48,15 @@ public class EqReceive implements Serializable {
     private String road2;
 
 
+    private String temp;
+
+    private String hum;
+
+
     public static void main(String[] args) {
-        String a ="11110003";
-        System.out.print(a.substring(7,8));
+        String a ="01070800001000EBB6";
+        System.out.print(a.substring(6,10));
+        System.out.print(a.substring(10,14));
     }
 
 

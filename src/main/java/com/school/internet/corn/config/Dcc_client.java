@@ -10,6 +10,7 @@ import com.school.internet.equip.service.impl.EqReceiveServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
@@ -371,8 +372,51 @@ public class Dcc_client {
 			} else if (msgBody.length() == 42) {
 				//读取温湿度
 				//	convertTemp(msgBody, box, map, tag);
-
+				//截取14-18位置的是温度
+				//截取18-22位是湿度
+				for(EquipdocVO equipdoc :eqEquipdoc){
+					if(equipdoc.getTypeName().equals("风扇")){
+						vo =equipdoc;
+					}else{
+						new IOException("没有本设备类型");
+					}
+				}
+				String temp = msgBody.substring(14,18);//3*2 + 2*4
+				String hum = msgBody.substring(18,22); // 3*2 + 3*4
+				int i = Integer.valueOf(temp, 10);
+				int j =Integer.valueOf(hum, 10);
+				double a = (i-4000)/200d-20+vo.getRandom();
+				double  b =(j-4000)/160d+vo.getRandom();
+				BigDecimal ta = new BigDecimal(a);
+				a = ta.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+				BigDecimal tb = new BigDecimal(b);
+				b = tb.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+				EqReceive eqReveive  = new EqReceive();
+				eqReveive.setState(2);
+				//PANDUAN
+				eqReveive.setPkEquipdoc(vo.getPkEquipdoc());
+				eqReveive.setBodyValue(msgBody);
+				eqReveive.setReceiveValue(temp+"&"+hum);
+				eqReveive.setTemp(a+"%");
+                eqReveive.setHum(b+"%");
+				iEqReceiveService.save(eqReveive);
 				//latch.countDown();
+			}else if(msgBody.length()==18){
+               //变频器
+				//第一路的数值   100是4095
+              String road1 =   msgBody.substring(6,10);
+              String road2 =msgBody.substring(10,14);
+				int i = Integer.valueOf(road1, 10);
+				int j =Integer.valueOf(road2, 10);
+				EqReceive eqReveive  = new EqReceive();
+				eqReveive.setState(1);
+				//PANDUAN
+				eqReveive.setPkEquipdoc(vo.getPkEquipdoc());
+				eqReveive.setBodyValue(msgBody);
+				eqReveive.setReceiveValue(road1+"&"+road2);
+				eqReveive.setRoad1(i/4095*100+"%");
+				eqReveive.setRoad2(j/4095*100+"%");
+				iEqReceiveService.save(eqReveive);
 			}
 		}
 		//logger.error("tag: " + tag + ", msg_body: " + bytesToHex(Bodychar));

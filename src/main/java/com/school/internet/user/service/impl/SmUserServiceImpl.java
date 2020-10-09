@@ -7,8 +7,10 @@ import com.school.internet.user.entity.SmUser;
 import com.school.internet.user.mapper.SmUserMapper;
 import com.school.internet.user.service.ISmUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.school.internet.utils.RandomPwd;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import java.sql.Wrapper;
 import java.util.List;
@@ -31,15 +33,25 @@ public class SmUserServiceImpl extends ServiceImpl<SmUserMapper, SmUser> impleme
 
     @Override
     public SmUser querySmUser(String name, String password) {
-        String passwordEncry =  MD5Util.getInstance().md5Encryption(password);
+        String passwordEncry = DigestUtils.md5DigestAsHex(password.getBytes());
         SmUser smUser  = new SmUser();
         smUser.setName(name);
-        smUser.setPassword(password);
+        smUser.setPassword(passwordEncry);
         QueryWrapper<SmUser> queryWrapper  = new QueryWrapper<>(smUser);
         List<SmUser> userList = smUserMapper.selectList(queryWrapper);
         if (userList.size()>0){
             return userList.get(0);
         }
          return null;
+    }
+
+    @Override
+    public int saveUser(SmUser smUser) {
+        //根据生成的密码加盐
+        String password = smUser.getPassword();
+        String md5Str = DigestUtils.md5DigestAsHex(password.getBytes());
+        smUser.setPassword(md5Str);
+        System.out.print("222="+smUser.toString());
+       return smUserMapper.insert(smUser);
     }
 }
