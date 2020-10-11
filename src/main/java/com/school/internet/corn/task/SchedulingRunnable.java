@@ -6,7 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.Map;
 
 public class SchedulingRunnable implements Runnable{
 
@@ -18,6 +20,8 @@ public class SchedulingRunnable implements Runnable{
 
     private Object[] params;
 
+
+
     public SchedulingRunnable(String beanName, String methodName) {
         this(beanName, methodName, null);
     }
@@ -27,6 +31,8 @@ public class SchedulingRunnable implements Runnable{
         this.methodName = methodName;
         this.params = params;
     }
+
+
 
     @Override
     public void run() {
@@ -74,7 +80,7 @@ public class SchedulingRunnable implements Runnable{
 
         return beanName.equals(that.beanName) &&
                 methodName.equals(that.methodName) &&
-                params.equals(that.params);
+                Arrays.equals(params,that.params);
     }
 
     @Override

@@ -22,17 +22,17 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
           System.out.print("haha");
-          List<EqRule> eqRuleList = iEqRuleService.list();
-
-          for (EqRule eqRule : eqRuleList) {
-              SchedulingRunnable task = new SchedulingRunnable("demoTask", "taskWithParams", eqRule.getImei(), eqRule.getInstructvalue());
-              cronTaskRegistrar.addCronTask(task, eqRule.getRuleValue());
-//        SchedulingRunnable task1 = new SchedulingRunnable("demoTask", "taskWithParams", "test",2);
-//        cronTaskRegistrar.addCronTask(task1, "0/15 * * * * ?");
-//        SchedulingRunnable task2 = new SchedulingRunnable("demoTask", "taskWithParams", "test1",1);
-//        cronTaskRegistrar.addCronTask(task2, "0/8 * * * * ?");
-
-          }
+//          List<EqRule> eqRuleList = iEqRuleService.list();
+//
+//          for (EqRule eqRule : eqRuleList) {
+//              SchedulingRunnable task = new SchedulingRunnable("demoTask", "taskWithParams", eqRule.getImei(), eqRule.getInstructValue());
+//              cronTaskRegistrar.addCronTask(task, eqRule.getRuleValue());
+////        SchedulingRunnable task1 = new SchedulingRunnable("demoTask", "taskWithParams", "test",2);
+////        cronTaskRegistrar.addCronTask(task1, "0/15 * * * * ?");
+////        SchedulingRunnable task2 = new SchedulingRunnable("demoTask", "taskWithParams", "test1",1);
+////        cronTaskRegistrar.addCronTask(task2, "0/8 * * * * ?");
+//
+//          }
 
     }
 
