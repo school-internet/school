@@ -78,8 +78,8 @@ public class EqEquipdocController {
      * @param structs
      */
     @GetMapping("sendMsgs")
-    public void sendjdq(String pkEquipdoc,String  imei,String structs){
-        //指令格式 1:true,2:false,3:true.... 以逗号截取8个口
+    public void sendjdq(String pkEquipdoc,String fkEquiptype,String  imei,String structs){
+        //指令格式 1:0,2:1,3:0.... 以逗号截取8个口
         //数据包格式看mserver相关手册
         //发送广播
 
@@ -88,7 +88,7 @@ public class EqEquipdocController {
             String msg = array[i];
             String[] param = msg.split(":");
             QueryWrapper<EqInstruct> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("fk_equipdoc",pkEquipdoc);
+            queryWrapper.eq("fk_equiptype",fkEquiptype);
             queryWrapper.eq("port",param[0]);
             queryWrapper.eq("state",param[1]);
             EqInstruct eqInstruct= iEqInstructService.getOne(queryWrapper);

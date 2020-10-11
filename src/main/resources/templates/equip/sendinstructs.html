@@ -22,8 +22,8 @@
                                 <dd>
                                 <div class="switch">
                                     <div class="onoffswitch">
-                                        <input type="checkbox" <#if reviceVO.port1=='0'>checked</#if>  class="onoffswitch-checkbox" id="port1">
-                                        <label class="onoffswitch-label" for="port1">
+                                        <input type="checkbox" <#if reviceVO.port1=='0'>checked</#if>  class="onoffswitch-checkbox" id="1">
+                                        <label class="onoffswitch-label" for="1">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
                                         </label>
@@ -34,8 +34,8 @@
                                 <dd>
                                 <div class="switch">
                                     <div class="onoffswitch">
-                                        <input type="checkbox" <#if reviceVO.port3=='0'>checked</#if>  class="onoffswitch-checkbox" id="port3">
-                                        <label class="onoffswitch-label" for="port3">
+                                        <input type="checkbox" <#if reviceVO.port3=='0'>checked</#if>  class="onoffswitch-checkbox" id="3">
+                                        <label class="onoffswitch-label" for="3">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
                                         </label>
@@ -46,8 +46,8 @@
                                 <dd>
                                 <div class="switch">
                                     <div class="onoffswitch">
-                                        <input type="checkbox" <#if reviceVO.port5=='0'>checked</#if>  class="onoffswitch-checkbox" id="port5">
-                                    <label class="onoffswitch-label" for="port5">
+                                        <input type="checkbox" <#if reviceVO.port5=='0'>checked</#if>  class="onoffswitch-checkbox" id="5">
+                                    <label class="onoffswitch-label" for="5">
                                         <span class="onoffswitch-inner"></span>
                                         <span class="onoffswitch-switch"></span>
                                     </label>
@@ -58,8 +58,8 @@
                                 <dd>
                                     <div class="switch">
                                         <div class="onoffswitch">
-                                            <input type="checkbox" <#if reviceVO.port7=='0'>checked</#if>  class="onoffswitch-checkbox" id="port7">
-                                        <label class="onoffswitch-label" for="port7">
+                                            <input type="checkbox" <#if reviceVO.port7=='0'>checked</#if>  class="onoffswitch-checkbox" id="7">
+                                        <label class="onoffswitch-label" for="7">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
                                         </label>
@@ -74,8 +74,8 @@
                                 <dd>
                                     <div class="switch">
                                         <div class="onoffswitch">
-                                            <input type="checkbox" <#if reviceVO.port2=='0'>checked</#if>  class="onoffswitch-checkbox" id="port2">
-                                        <label class="onoffswitch-label" for="port2">
+                                            <input type="checkbox" <#if reviceVO.port2=='0'>checked</#if>  class="onoffswitch-checkbox" id="2">
+                                        <label class="onoffswitch-label" for="2">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
                                         </label>
@@ -86,8 +86,8 @@
                                 <dd>
                                     <div class="switch">
                                         <div class="onoffswitch">
-                                            <input type="checkbox" <#if reviceVO.port4=='0'>checked</#if>  class="onoffswitch-checkbox" id="port4">
-                                        <label class="onoffswitch-label" for="port4">
+                                            <input type="checkbox" <#if reviceVO.port4=='0'>checked</#if>  class="onoffswitch-checkbox" id="4">
+                                        <label class="onoffswitch-label" for="4">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
                                         </label>
@@ -98,8 +98,8 @@
                                 <dd>
                                     <div class="switch">
                                         <div class="onoffswitch">
-                                            <input type="checkbox" <#if reviceVO.port6=='0'>checked</#if>  class="onoffswitch-checkbox" id="port6">
-                                        <label class="onoffswitch-label" for="port6">
+                                            <input type="checkbox" <#if reviceVO.port6=='0'>checked</#if>  class="onoffswitch-checkbox" id="6">
+                                        <label class="onoffswitch-label" for="6">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
                                         </label>
@@ -110,8 +110,8 @@
                                 <dd>
                                     <div class="switch">
                                         <div class="onoffswitch">
-                                            <input type="checkbox" <#if reviceVO.port8=='0'>checked</#if>  class="onoffswitch-checkbox" id="port8">
-                                        <label class="onoffswitch-label" for="port8">
+                                            <input type="checkbox" <#if reviceVO.port8=='0'>checked</#if>  class="onoffswitch-checkbox" id="8">
+                                        <label class="onoffswitch-label" for="8">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
                                         </label>
@@ -147,8 +147,14 @@
         var clickCheckboxs = document.querySelectorAll('.onoffswitch-checkbox')
         var structs = [];
         for(var i = 0; i<clickCheckboxs.length; i++ ){
-            var struct = clickCheckboxs[i].id+","+clickCheckboxs[i].checked;
-            structs.push(struct)
+            if(clickCheckboxs[i].checked){
+                var struct = clickCheckboxs[i].id+":"+0;
+                structs.push(struct)
+            }else{
+                var struct = clickCheckboxs[i].id+":"+1;
+                structs.push(struct)
+            }
+
         }
         sendinstruct(structs.join())
 
@@ -166,7 +172,7 @@
             var index = null;
             $.ajax({
                 type: "GET",
-                url:"/equip/eq-equipdoc/sendjdq?pkEquipdoc=${pkEquipdoc}&structs="+instructValue,
+                url:"/equip/eq-equipdoc/sendMsgs?pkEquipdoc=${pkEquipdoc}&fkEquiptype=${fkEquiptype}&imei=${imei}&structs="+instructValue,
                 async: false,
                 beforeSend: function () {
 
