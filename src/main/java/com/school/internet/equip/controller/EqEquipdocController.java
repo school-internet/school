@@ -80,9 +80,6 @@ public class EqEquipdocController {
     @GetMapping("sendMsgs")
     public void sendjdq(String pkEquipdoc,String  imei,String structs){
         //指令格式 1:true,2:false,3:true.... 以逗号截取8个口
-        Dcc_client dcc_client = new Dcc_client();
-        SocketChannel socket = dcc_client.dcc_Socket("iot.harvestcloud.cn", 9877);
-
         //数据包格式看mserver相关手册
         //发送广播
 
