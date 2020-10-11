@@ -30,9 +30,13 @@ public class EqRule implements Serializable {
 
     private String fkInstruct;
 
+    private String imei;
+
     private BigDecimal dr;
 
     private String ts;
+
+    private String instructvalue;
 
 
 }

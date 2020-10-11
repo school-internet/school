@@ -77,7 +77,7 @@ public class EqEquipdocController {
      * @param pkEquipdoc
      * @param structs
      */
-    @GetMapping("sendMsg")
+    @GetMapping("sendMsgs")
     public void sendjdq(String pkEquipdoc,String  imei,String structs){
         //指令格式 1:true,2:false,3:true.... 以逗号截取8个口
         Dcc_client dcc_client = new Dcc_client();
@@ -130,5 +130,10 @@ public class EqEquipdocController {
     }
 
     //查找设备机型当前最新状态
+
+
+    public void  getWork(){
+
+    }
 
 }
