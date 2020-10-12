@@ -140,23 +140,47 @@
 <script src="/plugins/layer/layer.js"></script>
 <script src="/plugins/switchery/switchery.js"></script>
 <script>
+    var portstate = [];
+    portstate.push('${reviceVO.port1}');
+    portstate.push('${reviceVO.port2}');
+    portstate.push('${reviceVO.port3}');
+    portstate.push('${reviceVO.port4}');
+    portstate.push('${reviceVO.port5}');
+    portstate.push('${reviceVO.port6}');
+    portstate.push('${reviceVO.port7}');
+    portstate.push('${reviceVO.port8}');
     $(document).ready(function () {
 
     });
     function sendinstructs(){
         var clickCheckboxs = document.querySelectorAll('.onoffswitch-checkbox')
+
         var structs = [];
         for(var i = 0; i<clickCheckboxs.length; i++ ){
+            var id = clickCheckboxs[i].id;
+            var oldstate = portstate[parseInt(id)-1];
+            var newstate ;
             if(clickCheckboxs[i].checked){
-                var struct = clickCheckboxs[i].id+":"+0;
-                structs.push(struct)
+                newstate = "0";
             }else{
-                var struct = clickCheckboxs[i].id+":"+1;
+                newstate = "1";
+            }
+            if(oldstate != newstate){
+                var struct = clickCheckboxs[i].id+":"+newstate;
                 structs.push(struct)
             }
 
+
         }
-        sendinstruct(structs.join())
+        if(structs.length > 0){
+            console.log(structs.join())
+        }else{
+            swal({title :"成功！", text :"没有修改的状态。", type :"success"},function(){
+
+            });
+        }
+
+
 
     }
     function sendinstruct(instructValue){
