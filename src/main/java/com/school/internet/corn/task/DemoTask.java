@@ -19,7 +19,7 @@ public class DemoTask {
 
         //数据包格式看mserver相关手册
         //发送广播
-//       MsgUtil.sendMsg(param1,param2);
+       MsgUtil.sendMsg(param1,param2);
     }
 
     public void taskNoParams() {

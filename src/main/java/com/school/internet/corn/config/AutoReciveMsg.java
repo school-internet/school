@@ -30,15 +30,13 @@ public class AutoReciveMsg   implements CommandLineRunner {
     private IEqRuleService iEqRuleService;
     @Override
     public  void run(String... args) throws Exception {
-        System.out.print("hello");
-        System.out.print("haha");
-//        List<EqRule> eqRuleList = iEqRuleService.list();
-//
-//        for (EqRule eqRule : eqRuleList) {
-//            SchedulingRunnable task = new SchedulingRunnable("demoTask", "taskWithParams", eqRule.getImei(), eqRule.getInstructValue());
-//            cronTaskRegistrar.addCronTask(task, eqRule.getRuleValue());
-//        }
-//          new RevciveMsgRunnable().run();
+        List<EqRule> eqRuleList = iEqRuleService.list();
+
+        for (EqRule eqRule : eqRuleList) {
+            SchedulingRunnable task = new SchedulingRunnable("demoTask", "taskWithParams", eqRule.getImei(), eqRule.getInstructValue());
+            cronTaskRegistrar.addCronTask(task, eqRule.getRuleValue());
+        }
+          new RevciveMsgRunnable().run();
 
     }
 
