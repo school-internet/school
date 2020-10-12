@@ -22,7 +22,7 @@
                                 <dd>
                                 <div class="switch">
                                     <div class="onoffswitch">
-                                        <input type="checkbox" <#if reviceVO.port1=='0'>checked</#if>  class="onoffswitch-checkbox" id="1">
+                                        <input type="checkbox" <#if reviceVO.port1=='1'>checked</#if>  class="onoffswitch-checkbox" id="1">
                                         <label class="onoffswitch-label" for="1">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
@@ -34,7 +34,7 @@
                                 <dd>
                                 <div class="switch">
                                     <div class="onoffswitch">
-                                        <input type="checkbox" <#if reviceVO.port3=='0'>checked</#if>  class="onoffswitch-checkbox" id="3">
+                                        <input type="checkbox" <#if reviceVO.port3=='1'>checked</#if>  class="onoffswitch-checkbox" id="3">
                                         <label class="onoffswitch-label" for="3">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
@@ -46,7 +46,7 @@
                                 <dd>
                                 <div class="switch">
                                     <div class="onoffswitch">
-                                        <input type="checkbox" <#if reviceVO.port5=='0'>checked</#if>  class="onoffswitch-checkbox" id="5">
+                                        <input type="checkbox" <#if reviceVO.port5=='1'>checked</#if>  class="onoffswitch-checkbox" id="5">
                                     <label class="onoffswitch-label" for="5">
                                         <span class="onoffswitch-inner"></span>
                                         <span class="onoffswitch-switch"></span>
@@ -58,7 +58,7 @@
                                 <dd>
                                     <div class="switch">
                                         <div class="onoffswitch">
-                                            <input type="checkbox" <#if reviceVO.port7=='0'>checked</#if>  class="onoffswitch-checkbox" id="7">
+                                            <input type="checkbox" <#if reviceVO.port7=='1'>checked</#if>  class="onoffswitch-checkbox" id="7">
                                         <label class="onoffswitch-label" for="7">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
@@ -74,7 +74,7 @@
                                 <dd>
                                     <div class="switch">
                                         <div class="onoffswitch">
-                                            <input type="checkbox" <#if reviceVO.port2=='0'>checked</#if>  class="onoffswitch-checkbox" id="2">
+                                            <input type="checkbox" <#if reviceVO.port2=='1'>checked</#if>  class="onoffswitch-checkbox" id="2">
                                         <label class="onoffswitch-label" for="2">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
@@ -86,7 +86,7 @@
                                 <dd>
                                     <div class="switch">
                                         <div class="onoffswitch">
-                                            <input type="checkbox" <#if reviceVO.port4=='0'>checked</#if>  class="onoffswitch-checkbox" id="4">
+                                            <input type="checkbox" <#if reviceVO.port4=='1'>checked</#if>  class="onoffswitch-checkbox" id="4">
                                         <label class="onoffswitch-label" for="4">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
@@ -98,7 +98,7 @@
                                 <dd>
                                     <div class="switch">
                                         <div class="onoffswitch">
-                                            <input type="checkbox" <#if reviceVO.port6=='0'>checked</#if>  class="onoffswitch-checkbox" id="6">
+                                            <input type="checkbox" <#if reviceVO.port6=='1'>checked</#if>  class="onoffswitch-checkbox" id="6">
                                         <label class="onoffswitch-label" for="6">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
@@ -110,7 +110,7 @@
                                 <dd>
                                     <div class="switch">
                                         <div class="onoffswitch">
-                                            <input type="checkbox" <#if reviceVO.port8=='0'>checked</#if>  class="onoffswitch-checkbox" id="8">
+                                            <input type="checkbox" <#if reviceVO.port8=='1'>checked</#if>  class="onoffswitch-checkbox" id="8">
                                         <label class="onoffswitch-label" for="8">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
@@ -161,9 +161,9 @@
             var oldstate = portstate[parseInt(id)-1];
             var newstate ;
             if(clickCheckboxs[i].checked){
-                newstate = "0";
-            }else{
                 newstate = "1";
+            }else{
+                newstate = "0";
             }
             if(oldstate != newstate){
                 var struct = clickCheckboxs[i].id+":"+newstate;
