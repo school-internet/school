@@ -84,8 +84,9 @@ public class EquipController {
     }
 
     @GetMapping("torule")
-    public String torule(String pkEquipdoc,ModelMap modelMap){
+    public String torule(String pkEquipdoc,String fkEquiptype,ModelMap modelMap){
         modelMap.put("pkEquipdoc",pkEquipdoc);
+        modelMap.put("fkEquiptype",fkEquiptype);
         return "equip/listrule";
     }
 

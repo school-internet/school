@@ -43,7 +43,7 @@ public class EqRuleController {
     @Autowired
     private CronTaskRegistrar cronTaskRegistrar;
 
-    @GetMapping("queryAll")
+    @PostMapping("queryAll")
     public MSPage<EqRuleVo> queryAll(Integer pageNo, Integer pageSize, EqRule eqRule){
         Page<EqRuleVo> page  = new Page<>();
         page.setCurrent(pageNo);

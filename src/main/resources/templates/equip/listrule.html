@@ -13,6 +13,11 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>设备规则</h5>
+                    <div class="ibox-tools">
+                        <a  id="addrule">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
                 </div>
                 <div class="ibox-content">
                     <table id="ruletable"  data-mobile-responsive="true">
@@ -23,41 +28,233 @@
         </div>
     </div>
 </div>
+<div id="addjd" style="display: none">
+    <form class="form-horizontal m-t" id="jd-form">
+        <input type="hidden" name="fkEquiptype"  value="${fkEquiptype}">
+        <input type="hidden" name="fkEquipdoc"  value="${pkEquipdoc}">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">端口：</label>
+            <div class="col-sm-8">
+                <select name="port"  class="form-control m-b">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">操作：</label>
+            <div class="col-sm-8">
+                <select  name="state"  class="form-control m-b">
+                    <option value="1">断开</option>
+                    <option value="0">闭合</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">规则：</label>
+            <div class="col-sm-8">
+                <input type="text" required="" aria-required="true" name="ruleValue"  class="form-control" required="" aria-required="true" maxlength="20">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-3">
+                <button class="btn btn-primary" type="submit">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="addbp" style="display: none">
+    <form class="form-horizontal m-t" id="bp-form">
+        <input type="hidden" name="fkEquiptype"  value="${fkEquiptype}">
+        <input type="hidden" name="fkEquipdoc"  value="${pkEquipdoc}">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">端口：</label>
+            <div class="col-sm-8">
+                <select name="port"  class="form-control m-b">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">操作值：</label>
+            <div class="col-sm-8">
+               <input type="number" name="state" maxlength="10" required="" aria-required="true"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">规则：</label>
+            <div class="col-sm-8">
+                <input type="text" required="" aria-required="true" name="ruleValue"  class="form-control" required="" aria-required="true" maxlength="20">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-3">
+                <button class="btn btn-primary" type="submit">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
 <@common.js/>
 <script src="/plugins/bootstrap-table/bootstrap-table.min.js"></script>
 <script src="/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="/plugins/bootstrap-table/bootstrap-table-object.js"></script>
+<!-- layer -->
+<script src="/plugins/layer/layer.js"></script>
+<!-- jQuery Validation plugin javascript-->
+<script src="/plugins/validate/jquery.validate.min.js"></script>
+<script src="/plugins/validate/messages_zh.min.js"></script>
+<script src="/plugins/validate/form-validate.js"></script>
 <script>
     var queryMap = new Object(); //table查询条件
     queryMap["query"] = false;
+    queryMap["fkEquipdoc"]= '${pkEquipdoc}';
     var table = null;
+    var mylayer; //弹出层
     $(document).ready(function () {
+
         //初始化Table
         var tableobj = new Object();
         tableobj.tableid = "ruletable";
         tableobj.initColumn = function () {
             return [{
-                field: 'sendTime',
-                title: '发送时间'
+                field: 'instructName',
+                title: '名称'
             },{
-                field: 'instructValue',
-                title: '发送指令'
+                field: 'ruleValue',
+                title: '规则'
             },{
-                field: 'resultValue',
-                title: '返回'
-            },{
-                field: 'state',
-                title: '状态',
-                formatter:function (value, row, index){
-                    if(row.state==0){
-                        return '成功';
-                    }else if(row.state==1){
-                        return '失败';
-                    }
-                }
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                width: 100,
+                valign: 'middle',
+                formatter: operateFormatter,
+                events: operateEvents
             }];
         }
+        var defaultColunms = tableobj.initColumn();
+        table = new BSTable(tableobj.tableid, "/equip/eq-rule/queryAll","pkRule", defaultColunms);
+        tableobj.table = table.init();
+
+        $("#addrule").click(function(){
+            if('${fkEquiptype}'=='1308402342397227009'){
+                mylayer =  layer.open({
+                    type: 1,
+                    closeBtn: false,
+                    title: '添加规则',
+                    shift: 2,
+                    shadeClose: true,
+                    area: ['500px', '400px'], //宽高
+                    content: $("#addjd")
+                });
+            }else if('${fkEquiptype}'=='0001000004AMN8S1VDZS'){
+                mylayer =  layer.open({
+                    type: 1,
+                    closeBtn: false,
+                    title: '添加规则',
+                    shift: 2,
+                    shadeClose: true,
+                    area: ['500px', '400px'], //宽高
+                    content: $("#addbp")
+                });
+            }
+
+        })
+
+        $("#jd-form").validate({
+            submitHandler:function(form){
+                $.ajax({
+                    type: "POST",
+                    url:"/equip/eq-rule/addrule",
+                    data:$('#jd-form').serialize(),// 你的formid
+                    async: false,
+                    error: function(request) {
+                        alert("Connection error");
+                    },
+                    success: function(data) {
+                        layer.close(mylayer);
+                        swal("成功！", "您已经操作成功。", "success");
+                        table.refresh();
+                    }
+                });
+            }
+        })
+
+        $("#bp-form").validate({
+            submitHandler:function(form){
+                $.ajax({
+                    type: "POST",
+                    url:"/equip/eq-rule/addrule",
+                    data:$('#bp-form').serialize(),// 你的formid
+                    async: false,
+                    error: function(request) {
+                        alert("Connection error");
+                    },
+                    success: function(data) {
+                        layer.close(mylayer);
+                        swal("成功！", "您已经操作成功。", "success");
+                        table.refresh();
+                    }
+                });
+            }
+        })
     })
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="del" style="margin-left:10px" href="javascript:void(0)" title="删除">',
+            '删除',
+            '</a>'
+        ].join('');
+    };
+    window.operateEvents ={
+
+        'click .del': function (e, value, row, index) {
+            swal({
+                title: "您确定要删除这条信息吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+                var index = null;
+                $.ajax({
+                    type: "GET",
+                    url:"/equip/eq-rule/removerule?pkRule="+row.pkRule,
+                    async: false,
+                    beforeSend: function () {
+
+                    },
+                    complete: function () {
+
+                    },
+                    error: function(request) {
+                        alert("Connection error");
+                    },
+                    success: function(data) {
+                        swal({title :"成功！", text :"您已经操作成功。", type :"success"},function(){
+                            table.refresh();
+                        });
+                    }
+                });
+            });
+        }
+    }
 </script>
 </body>
 </html>
