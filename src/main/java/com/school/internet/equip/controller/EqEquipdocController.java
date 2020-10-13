@@ -78,7 +78,7 @@ public class EqEquipdocController {
      * @param structs
      */
     @GetMapping("sendMsgs")
-    public void sendjdq(String pkEquipdoc,String fkEquiptype,String  imei,String structs){
+    public Integer sendjdq(String pkEquipdoc,String fkEquiptype,String  imei,String structs){
         //指令格式 1:0,2:1,3:0.... 以逗号截取8个口
         //数据包格式看mserver相关手册
         //发送广播
@@ -94,6 +94,11 @@ public class EqEquipdocController {
             EqInstruct eqInstruct= iEqInstructService.getOne(queryWrapper);
            String value =  eqInstruct.getInstructValue();
             MsgUtil.sendMsg(imei,value);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         EqSendlog  eqSendlog  = new EqSendlog();
         eqSendlog.setFkEquipdoc(pkEquipdoc);
@@ -102,8 +107,24 @@ public class EqEquipdocController {
         eqSendlog.setState(0);
         eqSendlog.setInstructValue(structs);
         iEqSendlogService.save(eqSendlog);
+        if(fkEquiptype.equals("1308402342397227009")) {
+            return MsgUtil.sendMsg(imei, "0101480000082A6C");
+        }else if(fkEquiptype.equals("0001000004AMN8S1VDZA")){
+            return MsgUtil.sendMsg(imei,"01032B580004CC3E");
+        }else{
+            return  MsgUtil.sendMsg(imei,"01072B000000BDEE");
+        }
 
     }
+
+
+    @GetMapping("getMsg")
+    public void getMsg(String fkEquiptype,String imei){
+        if(fkEquiptype.equals("1308402342397227009")) {
+             MsgUtil.sendMsg(imei, "0101480000082A6C");
+        }
+    }
+
 
 
     @GetMapping("sendMsg")

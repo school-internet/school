@@ -27,8 +27,8 @@ public class EqRuleServiceImpl extends ServiceImpl<EqRuleMapper, EqRule> impleme
     @Autowired
     private EqRuleMapper eqRuleMapper;
 
-    public MSPage<EqRule> all(Page<EqRule> page){
-        return PageUtils.page(eqRuleMapper.all(page));
+    public MSPage<EqRule> all(Page<EqRule> page,EqRule eqRule){
+        return PageUtils.page(eqRuleMapper.all(page,eqRule));
     }
 
 }

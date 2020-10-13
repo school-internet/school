@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.school.internet.equip.entity.EqRule;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,5 +20,5 @@ import java.util.List;
 @Mapper
 public interface EqRuleMapper extends BaseMapper<EqRule> {
 
-    IPage <EqRule> all(Page<EqRule> page);
+    IPage <EqRule> all(Page<EqRule> page,@Param("model") EqRule eqRule);
 }

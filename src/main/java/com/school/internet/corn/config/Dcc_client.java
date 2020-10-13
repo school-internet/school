@@ -339,6 +339,7 @@ public class Dcc_client {
 				for(EquipdocVO equipdoc :eqEquipdoc){
                           if(equipdoc.getTypeName().equals("继电器")){
                           	vo =equipdoc;
+                          	break;
 						  }else{
 							  new IOException("没有本设备类型");
 						  }
@@ -377,6 +378,7 @@ public class Dcc_client {
 				for(EquipdocVO equipdoc :eqEquipdoc){
 					if(equipdoc.getTypeName().equals("风扇")){
 						vo =equipdoc;
+						break;
 					}else{
 						new IOException("没有本设备类型");
 					}
@@ -404,6 +406,14 @@ public class Dcc_client {
 			}else if(msgBody.length()==18){
                //变频器
 				//第一路的数值   100是4095
+				for(EquipdocVO equipdoc :eqEquipdoc){
+					if(equipdoc.getTypeName().equals("变频器")){
+						vo =equipdoc;
+						break;
+					}else{
+						new IOException("没有本设备类型");
+					}
+				}
               String road1 =   msgBody.substring(6,10);
               String road2 =msgBody.substring(10,14);
 				int i = Integer.valueOf(road1, 10);

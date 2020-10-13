@@ -33,7 +33,7 @@ public class AutoReciveMsg   implements CommandLineRunner {
         List<EqRule> eqRuleList = iEqRuleService.list();
 
         for (EqRule eqRule : eqRuleList) {
-            SchedulingRunnable task = new SchedulingRunnable("demoTask", "taskWithParams", eqRule.getImei(), eqRule.getInstructValue());
+            SchedulingRunnable task = new SchedulingRunnable("demoTask", "taskWithParams",eqRule.getPkRule() );
             cronTaskRegistrar.addCronTask(task, eqRule.getRuleValue());
         }
           new RevciveMsgRunnable().run();
