@@ -49,7 +49,7 @@ public class EqRule implements Serializable {
     private Integer port;
 
     @TableField(exist = false)
-    private String state;
+    private Integer state;
 
 
 
