@@ -41,12 +41,12 @@ public class EqRuleController {
         page.setCurrent(pageNo);
         page.setSize(pageSize);
 
-      return   iEqRuleService.all(page);
+      return   iEqRuleService.all(page,eqRule);
     }
 
    @PostMapping("addrule")
     public void  addrule(EqRule eqRule){
-        iEqRuleService.save(eqRule);
+        iEqRuleService.saveOrUpdate(eqRule);
        SchedulingRunnable task = new SchedulingRunnable("demoTask", "taskWithParams",eqRule.getPkRule() );
        cronTaskRegistrar.addCronTask(task, eqRule.getRuleValue());
 

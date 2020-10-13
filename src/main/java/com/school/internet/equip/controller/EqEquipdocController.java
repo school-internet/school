@@ -107,22 +107,74 @@ public class EqEquipdocController {
         eqSendlog.setState(0);
         eqSendlog.setInstructValue(structs);
         iEqSendlogService.save(eqSendlog);
-        if(fkEquiptype.equals("1308402342397227009")) {
-            return MsgUtil.sendMsg(imei, "0101480000082A6C");
-        }else if(fkEquiptype.equals("0001000004AMN8S1VDZA")){
-            return MsgUtil.sendMsg(imei,"01032B580004CC3E");
-        }else{
-            return  MsgUtil.sendMsg(imei,"01072B000000BDEE");
-        }
+        MsgUtil.sendMsg(imei,"01032B580004CC3E");
+        return MsgUtil.sendMsg(imei, "0101480000082A6C");
+
+
+
 
     }
 
 
-    @GetMapping("getMsg")
-    public void getMsg(String fkEquiptype,String imei){
-        if(fkEquiptype.equals("1308402342397227009")) {
-             MsgUtil.sendMsg(imei, "0101480000082A6C");
+    @GetMapping("sendMsgtem")
+    public Integer sendMsgtem(String pkEquipdoc,String fkEquiptype,String  imei,String structs){
+        //温度湿度的直接发送
+       // 1:50,2:100
+
+        String[] array =  structs.split(",");
+        for(int i=0;i<array.length;i++){
+            StringBuffer  buffer = new StringBuffer();
+            String msg = array[i];
+            String[] param = msg.split(":");
+           if(param[0].equals("1")){
+             //  01 07 48 01 XX XX 校验位   4095 0FFF
+               Integer value  = Integer.parseInt(param[1]);
+               value = value*4095/100;
+              String  values =   Integer.toHexString(value).toUpperCase();
+              if(values.length()==1){
+                  values ="000"+values;
+              }else if(values.length()==2){
+                  values ="00"+values;
+              }else if(values.length()==3){
+                  values ="0"+values;
+              }
+              buffer.append("01074801");
+              buffer.append(values);
+              buffer.append(ByteUtils.getCRC("01074801"));
+           }else{
+               Integer value  = Integer.parseInt(param[1]);
+               value = value*4095/100;
+               String  values =   Integer.toHexString(value).toUpperCase();
+               if(values.length()==1){
+                   values ="000"+values;
+               }else if(values.length()==2){
+                   values ="00"+values;
+               }else if(values.length()==3){
+                   values ="0"+values;
+               }
+               buffer.append("01074802");
+               buffer.append(values);
+               buffer.append(ByteUtils.getCRC("01074802"));
+           }
+
+            MsgUtil.sendMsg(imei,buffer.toString());
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+        EqSendlog  eqSendlog  = new EqSendlog();
+        eqSendlog.setFkEquipdoc(pkEquipdoc);
+        eqSendlog.setSendTime(DateTimeUtils.formatTime());
+        eqSendlog.setResultValue("成功");
+        eqSendlog.setState(0);
+        eqSendlog.setInstructValue(structs);
+        iEqSendlogService.save(eqSendlog);
+
+        return MsgUtil.sendMsg(imei,"01072B000000BDEE");
+
+
     }
 
 

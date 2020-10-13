@@ -21,5 +21,5 @@ import java.util.List;
 public interface IEqRuleService extends IService<EqRule> {
 
 
-     MSPage<EqRule> all(Page<EqRule> page,@EqRule eqRule);
+     MSPage<EqRule> all(Page<EqRule> page,EqRule eqRule);
 }
