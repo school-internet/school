@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<@common.header/>
+<link href="/cssplugins/switchery/switchery.css" rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>指令</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>端口1(%)：</dt>
+                                <dd>
+                                    <input type="number" id="port1" />
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>端口2(%)：</dt>
+                                <dd>
+                                    <input type="number" id="port2" />
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <button class="btn btn-primary" type="button" onclick="sendinstructs()" >提交</button>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<@common.js/>
+<!-- layer -->
+<script src="/plugins/layer/layer.js"></script>
+<script src="/plugins/switchery/switchery.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+    });
+    function sendinstructs(){
+        var port1val = $("#port1").val();
+        var port2val = $("#port2").val();
+        var structs = [];
+        if(port1val != ''){
+            structs.push('1:'+port1val);
+        }
+        if(port2val != ''){
+            structs.push('2:'+port2val);
+        }
+        if(structs.length > 0){
+            sendinstruct(structs.join())
+        }else{
+            swal({title :"成功！", text :"没有修改的状态。", type :"success"},function(){
+
+            });
+        }
+
+
+
+    }
+    function sendinstruct(instructValue){
+        swal({
+            title: "您确定要发送吗",
+            text: "发送该设备指令！",
+            type: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            closeOnConfirm: false
+        }, function () {
+            var index = null;
+            $.ajax({
+                type: "GET",
+                url:"/equip/eq-equipdoc/sendMsgtem?pkEquipdoc=${pkEquipdoc}&fkEquiptype=${fkEquiptype}&imei=${imei}&structs="+instructValue,
+                async: false,
+                beforeSend: function () {
+
+                },
+                complete: function () {
+
+                },
+                error: function(request) {
+                    alert("Connection error");
+                },
+                success: function(data) {
+                    if(data == 0){
+                        swal({title :"成功！", text :"您已经操作成功。", type :"success"},function(){
+
+                        });
+                    }
+
+                }
+            });
+        });
+    }
+
+</script>
+</body>
+</html>

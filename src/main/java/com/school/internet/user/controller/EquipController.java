@@ -83,7 +83,20 @@ public class EquipController {
         return "equip/detailsequip";
     }
 
+    @GetMapping("torule")
+    public String torule(String pkEquipdoc,ModelMap modelMap){
+        modelMap.put("pkEquipdoc",pkEquipdoc);
+        return "equip/listrule";
+    }
 
+
+    @GetMapping("sendbpInstructs")
+    public String sendbpInstructs(String pkEquipdoc,String imei,String fkEquiptype,ModelMap modelMap){
+        modelMap.put("imei",imei);
+        modelMap.put("fkEquiptype",fkEquiptype);
+        modelMap.put("pkEquipdoc",pkEquipdoc);
+        return "equip/sendbpinstructs";
+    }
 
     @GetMapping("sendInstructs")
     public String sendInstructs(String pkEquipdoc,String imei,String fkEquiptype,ModelMap modelMap){

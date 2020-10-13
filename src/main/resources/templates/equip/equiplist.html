@@ -113,6 +113,10 @@
             '</a>',
             '<a class="send" style="margin-left:10px" href="javascript:void(0)" title="下发">',
             '下发',
+            '</a>',
+            '</a>',
+            '<a class="rule" style="margin-left:10px" href="javascript:void(0)" title="规则">',
+            '规则',
             '</a>'
         ].join('');
     };
@@ -201,9 +205,40 @@
                         table.refresh();
                     }
                 });
+            }else if(row.typeName=='变频器'){
+                parent.layer.open({
+                    type: 2,
+                    title: '设备下发',
+                    shadeClose: false,
+                    shade: 0.1,
+                    shift:2,
+                    area: ['60%', '80%'],
+                    content: '/equip/sendbpInstructs?fkEquiptype='+row.fkEquiptype+'&pkEquipdoc='+row.pkEquipdoc+'&imei='+row.imei,
+                    cancel: function(){
+                        table.refresh();
+                    },
+                    end:function () {
+                        table.refresh();
+                    }
+                });
             }
+        },
+        'click .rule': function (e, value, row, index){
+            parent.layer.open({
+                type: 2,
+                title: '设备规则',
+                shadeClose: false,
+                shade: 0.1,
+                shift:2,
+                area: ['100%', '100%'],
+                content: '/equip/torule?pkEquipdoc='+row.pkEquipdoc,
+                cancel: function(){
 
+                },
+                end:function () {
 
+                }
+            });
         }
     };
 </script>

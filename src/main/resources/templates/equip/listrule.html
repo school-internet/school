@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<@common.header/>
+<link href="/cssplugins/switchery/switchery.css" rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>设备规则</h5>
+                </div>
+                <div class="ibox-content">
+                    <table id="ruletable"  data-mobile-responsive="true">
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<@common.js/>
+<script src="/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/plugins/bootstrap-table/bootstrap-table-object.js"></script>
+<script>
+    var queryMap = new Object(); //table查询条件
+    queryMap["query"] = false;
+    var table = null;
+    $(document).ready(function () {
+        //初始化Table
+        var tableobj = new Object();
+        tableobj.tableid = "ruletable";
+        tableobj.initColumn = function () {
+            return [{
+                field: 'sendTime',
+                title: '发送时间'
+            },{
+                field: 'instructValue',
+                title: '发送指令'
+            },{
+                field: 'resultValue',
+                title: '返回'
+            },{
+                field: 'state',
+                title: '状态',
+                formatter:function (value, row, index){
+                    if(row.state==0){
+                        return '成功';
+                    }else if(row.state==1){
+                        return '失败';
+                    }
+                }
+            }];
+        }
+    })
+</script>
+</body>
+</html>
