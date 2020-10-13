@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.school.internet.corn.config.MSPage;
 import com.school.internet.equip.entity.EqRule;
+import com.school.internet.equip.entity.EqRuleVo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,5 +22,5 @@ import java.util.List;
 public interface IEqRuleService extends IService<EqRule> {
 
 
-     MSPage<EqRule> all(Page<EqRule> page,EqRule eqRule);
+     MSPage<EqRuleVo> all(Page<EqRuleVo> page, EqRule eqRule);
 }

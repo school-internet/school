@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.school.internet.corn.config.MSPage;
 import com.school.internet.corn.config.PageUtils;
 import com.school.internet.equip.entity.EqRule;
+import com.school.internet.equip.entity.EqRuleVo;
 import com.school.internet.equip.mapper.EqRuleMapper;
 import com.school.internet.equip.service.IEqRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class EqRuleServiceImpl extends ServiceImpl<EqRuleMapper, EqRule> impleme
     @Autowired
     private EqRuleMapper eqRuleMapper;
 
-    public MSPage<EqRule> all(Page<EqRule> page,EqRule eqRule){
+    public MSPage<EqRuleVo> all(Page<EqRuleVo> page, EqRule eqRule){
         return PageUtils.page(eqRuleMapper.all(page,eqRule));
     }
 

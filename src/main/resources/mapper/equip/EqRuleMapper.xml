@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.school.internet.equip.mapper.EqRuleMapper">
 
-    <select id="all" resultType="com.school.internet.equip.entity.EqRule">
-        select * from eq_rule where dr=0  and  fk_equipdoc =#{model.fkEquipdoc}
+    <select id="all" resultType="com.school.internet.equip.entity.EqRuleVo">
+        select * from eq_rule  a join eq_instruct b  on b.pk_instruct   = a.fk_instruct where a.dr=0  and  a.fk_equipdoc =#{model.fkEquipdoc}
     </select>
 </mapper>

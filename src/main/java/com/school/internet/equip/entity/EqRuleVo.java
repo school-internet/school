@@ -2,12 +2,10 @@ package com.school.internet.equip.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.KeySequence;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.beans.Transient;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -20,13 +18,11 @@ import java.math.BigDecimal;
  * @since 2020-09-19
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@KeySequence(value = "SEQ_ORACLE_STRING_KEY", clazz = String.class)
-public class EqRule implements Serializable {
+
+public class EqRuleVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "pk_rule",type = IdType.ASSIGN_ID)
     private String pkRule;
 
     private String ruleValue;
@@ -44,14 +40,6 @@ public class EqRule implements Serializable {
     private String ts;
 
     private String instructValue;
-
-    @TableField(exist = false)
-    private Integer port;
-
-    @TableField(exist = false)
-    private String state;
-
-
 
 
 }
