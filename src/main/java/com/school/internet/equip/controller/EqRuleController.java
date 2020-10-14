@@ -65,7 +65,7 @@ public class EqRuleController {
              String hour = "0/" + eqRule.getRuletime();
              rule.append("0 ");
              rule.append(hour);
-             rule.append(eqRule.getEffectivedate());
+             rule.append(" "+eqRule.getEffectivedate());
              rule.append(" * * ?");
              QueryWrapper<EqInstruct> queryWrapper = new QueryWrapper<>();
              queryWrapper.eq("fk_equiptype", eqRule.getFkEquiptype());

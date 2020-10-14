@@ -35,7 +35,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">端口：</label>
             <div class="col-sm-8">
-                <select name="port"   id="select" class="form-control m-b">
+                <select name="port"   id="port" class="form-control m-b">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -50,7 +50,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">操作：</label>
             <div class="col-sm-8">
-                <select  name="state"  id=""state  class="form-control m-b">
+                <select  name="state"  id="state"  class="form-control m-b">
                     <option value="1" selected>断开</option>
                     <option value="0">闭合</option>
                 </select>
@@ -204,7 +204,7 @@
               var obj ={};
               obj["fkEquiptype"] ='${fkEquiptype}';
               obj["fkEquipdoc"]='${pkEquipdoc}';
-              obj["state"]=$("#select").val();
+              obj["state"]=$("#state").val();
               obj["port"]=$("#port").val();
               obj["effectivedate"]=$("#effectivedate").val();
               obj["ruletime"]=$("#rulevalue").val();
@@ -220,7 +220,7 @@
             $.ajax({
                         type: "POST",
                         url:"/equip/eq-rule/addrule",
-                        data:JSON.stringify(list),// 你的formid
+                        data:{"list":JSON.stringify(list)},// 你的formid
                         async: false,
                         error: function(request) {
                             alert("Connection error");
