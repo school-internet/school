@@ -8,10 +8,8 @@ import com.school.internet.corn.config.ByteUtils;
 import com.school.internet.corn.config.CronTaskRegistrar;
 import com.school.internet.corn.config.MSPage;
 import com.school.internet.corn.task.SchedulingRunnable;
-import com.school.internet.equip.entity.EqInstruct;
-import com.school.internet.equip.entity.EqRule;
-import com.school.internet.equip.entity.EqRuleVo;
-import com.school.internet.equip.entity.EquipdocVO;
+import com.school.internet.equip.entity.*;
+import com.school.internet.equip.service.IEqEquipdocService;
 import com.school.internet.equip.service.IEqInstructService;
 import com.school.internet.equip.service.IEqRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +40,8 @@ public class EqRuleController {
 
     @Autowired
     private CronTaskRegistrar cronTaskRegistrar;
+    @Autowired
+    private IEqEquipdocService iEqEquipdocService;
 
     @PostMapping("queryAll")
     public MSPage<EqRuleVo> queryAll(Integer pageNo, Integer pageSize, EqRule eqRule){
@@ -64,23 +64,28 @@ public class EqRuleController {
                queryWrapper.eq("state",eqRule.getState());
            }
            EqInstruct eqInstruct = iEqInstructService.getOne(queryWrapper);
+           if(eqInstruct != null){
+               eqRule.setFkInstruct(eqInstruct.getPkInstruct());
+               EqEquipdoc eqEquipdoc = iEqEquipdocService.getById(eqRule.getFkEquipdoc());
+               eqRule.setImei(eqEquipdoc.getImei());
+               if(!eqRule.getFkEquiptype().equals("0001000004AMN8S1VDZS")){
+                   eqRule.setInstructValue(eqInstruct.getInstructValue());
+               }else {
+                   Integer value = eqRule.getState();
+                   value = value * 4095 / 100;
+                   String values = Integer.toHexString(value).toUpperCase();
+                   StringBuffer buffer = new StringBuffer();
+                   buffer.append(eqInstruct.getInstructValue());
+                   buffer.append(values);
+                   buffer.append(ByteUtils.getCRC(eqInstruct.getInstructValue()));
+                   eqRule.setInstructValue(buffer.toString());
+               }
 
-            if(!eqRule.getFkEquiptype().equals("0001000004AMN8S1VDZS")){
-                eqRule.setInstructValue(eqInstruct.getInstructValue());
-            }else {
-                Integer value = eqRule.getState();
-                value = value * 4095 / 100;
-                String values = Integer.toHexString(value).toUpperCase();
-                StringBuffer buffer = new StringBuffer();
-                buffer.append(eqInstruct.getInstructValue());
-                buffer.append(values);
-                buffer.append(ByteUtils.getCRC(eqInstruct.getInstructValue()));
-                eqRule.setInstructValue(buffer.toString());
-            }
+               iEqRuleService.saveOrUpdate(eqRule);
+               SchedulingRunnable task = new SchedulingRunnable("demoTask", "taskWithParams",eqRule.getPkRule() );
+               cronTaskRegistrar.addCronTask(task, eqRule.getRuleValue());
+           }
 
-        iEqRuleService.saveOrUpdate(eqRule);
-       SchedulingRunnable task = new SchedulingRunnable("demoTask", "taskWithParams",eqRule.getPkRule() );
-       cronTaskRegistrar.addCronTask(task, eqRule.getRuleValue());
 
    }
 
