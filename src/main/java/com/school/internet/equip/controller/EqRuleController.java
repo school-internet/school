@@ -1,6 +1,9 @@
 package com.school.internet.equip.controller;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -13,10 +16,7 @@ import com.school.internet.equip.service.IEqEquipdocService;
 import com.school.internet.equip.service.IEqInstructService;
 import com.school.internet.equip.service.IEqRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -53,39 +53,46 @@ public class EqRuleController {
     }
 
    @PostMapping("addrule")
-    public void  addrule(EqRule eqRule){
-        //根据穿得类型和端口以及值来判断
+    public void  addrule( String list){
+        JSONArray array =   JSONArray.parseArray(list);
 
-           QueryWrapper<EqInstruct> queryWrapper = new QueryWrapper<>();
-           queryWrapper.eq("fk_equiptype", eqRule.getFkEquiptype());
-           queryWrapper.eq("port", eqRule.getPort());
-           //继电器
-           if (!eqRule.getFkEquiptype().equals("0001000004AMN8S1VDZS")) {
-               queryWrapper.eq("state",eqRule.getState());
-           }
-           EqInstruct eqInstruct = iEqInstructService.getOne(queryWrapper);
-           if(eqInstruct != null){
-               eqRule.setFkInstruct(eqInstruct.getPkInstruct());
-               EqEquipdoc eqEquipdoc = iEqEquipdocService.getById(eqRule.getFkEquipdoc());
-               eqRule.setImei(eqEquipdoc.getImei());
-               if(!eqRule.getFkEquiptype().equals("0001000004AMN8S1VDZS")){
-                   eqRule.setInstructValue(eqInstruct.getInstructValue());
-               }else {
-                   Integer value = eqRule.getState();
-                   value = value * 4095 / 100;
-                   String values = Integer.toHexString(value).toUpperCase();
-                   StringBuffer buffer = new StringBuffer();
-                   buffer.append(eqInstruct.getInstructValue());
-                   buffer.append(values);
-                   buffer.append(ByteUtils.getCRC(eqInstruct.getInstructValue()));
-                   eqRule.setInstructValue(buffer.toString());
-               }
+         for(int i=0; i<array.size(); i++) {
 
-               iEqRuleService.saveOrUpdate(eqRule);
-               SchedulingRunnable task = new SchedulingRunnable("demoTask", "taskWithParams",eqRule.getPkRule() );
-               cronTaskRegistrar.addCronTask(task, eqRule.getRuleValue());
-           }
-
+             EqRule eqRule =  JSON.toJavaObject(array.getJSONObject(i),EqRule.class);
+             //根据穿得类型和端口以及值来判断   0 0/2 10-11 * * ?
+             StringBuffer rule = new StringBuffer();
+             //断开的时间
+             String hour = "0/" + eqRule.getRuletime();
+             rule.append("0 ");
+             rule.append(hour);
+             rule.append(eqRule.getEffectivedate());
+             rule.append(" * * ?");
+             QueryWrapper<EqInstruct> queryWrapper = new QueryWrapper<>();
+             queryWrapper.eq("fk_equiptype", eqRule.getFkEquiptype());
+             queryWrapper.eq("port", eqRule.getPort());
+             //继电器
+             queryWrapper.eq("state", eqRule.getState());
+             EqInstruct eqInstruct = iEqInstructService.getOne(queryWrapper);
+             if (eqInstruct != null) {
+                 eqRule.setFkInstruct(eqInstruct.getPkInstruct());
+                 EqEquipdoc eqEquipdoc = iEqEquipdocService.getById(eqRule.getFkEquipdoc());
+                 eqRule.setImei(eqEquipdoc.getImei());
+                 eqRule.setInstructValue(eqInstruct.getInstructValue());
+                 //查询这个时间段有没有设置规则
+                 QueryWrapper<EqRule> queryWrappers = new QueryWrapper<>();
+                 queryWrapper.eq("imei",eqEquipdoc.getImei());
+                 queryWrapper.eq("effectivedate", eqRule.getFkEquiptype());
+                 queryWrapper.eq("instruct_value", eqInstruct.getInstructValue());
+                 List<EqRule> eqRules = iEqRuleService.list(queryWrappers);
+                 if(eqRules.size()>0){
+                     continue;
+                 }
+                 eqRule.setRuleValue(rule.toString());
+                 iEqRuleService.saveOrUpdate(eqRule);
+                 SchedulingRunnable task = new SchedulingRunnable("demoTask", "taskWithParams", eqRule.getPkRule());
+                 cronTaskRegistrar.addCronTask(task, eqRule.getRuleValue());
+             }
+         }
 
    }
 

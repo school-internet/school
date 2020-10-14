@@ -48,10 +48,15 @@ public class EqRule implements Serializable {
     @TableField(exist = false)
     private Integer port;
 
+
     @TableField(exist = false)
     private Integer state;
 
+//生效时间
+    private String effectivedate;
 
 
+    @TableField(exist = false)
+    private String  ruletime;
 
 }
