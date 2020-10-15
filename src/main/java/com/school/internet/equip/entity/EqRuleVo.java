@@ -47,5 +47,7 @@ public class EqRuleVo implements Serializable {
 
     private String ruletime;
 
+    private String effectivedate;
+
 
 }
