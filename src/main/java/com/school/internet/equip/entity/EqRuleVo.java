@@ -41,5 +41,11 @@ public class EqRuleVo implements Serializable {
 
     private String instructValue;
 
+    private Integer port;
+
+    private Integer state;
+
+    private String ruletime;
+
 
 }

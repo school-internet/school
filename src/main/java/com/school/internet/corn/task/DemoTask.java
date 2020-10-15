@@ -26,8 +26,13 @@ public class DemoTask {
 
         //数据包格式看mserver相关手册
         //发送广播
-       EqRule eqRule = iEqRuleService.getById(pkRule);
-       MsgUtil.sendMsg(eqRule.getImei(),eqRule.getInstructValue());
+        try {
+            EqRule eqRule = iEqRuleService.getById(pkRule);
+            MsgUtil.sendMsg(eqRule.getImei(),eqRule.getInstructValue());
+            Thread.sleep(13);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void taskNoParams() {

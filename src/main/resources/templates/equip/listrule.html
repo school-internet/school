@@ -207,7 +207,9 @@
               obj["state"]=$("#state").val();
               obj["port"]=$("#port").val();
               obj["effectivedate"]=$("#effectivedate").val();
-              obj["ruletime"]=$("#rulevalue").val();
+              var a =$("#rulevalue").val();
+              var  b =$("#ruleValue2").val()
+              obj["ruletime"]=parseInt(a)+parseInt(b)
               list.push(obj)
             var obj1 ={};
             obj1["fkEquiptype"] ='${fkEquiptype}';
@@ -215,7 +217,14 @@
             obj1["state"]=$("#state2").val();
             obj1["port"]=$("#port").val();
             obj1["effectivedate"]=$("#effectivedate").val();
-            obj1["ruletime"]=$("#ruleValue2").val();
+             var num ;
+            if(parseInt($("#rulevalue").val())<10){
+                var c = parseInt($("#rulevalue").val());
+                num ="0"+c;
+            }else{
+                num =parseInt($("#rulevalue").val());
+            }
+            obj1["ruletime"]= num;
             list.push(obj1)
             $.ajax({
                         type: "POST",

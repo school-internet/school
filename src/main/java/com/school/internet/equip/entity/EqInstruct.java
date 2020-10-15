@@ -36,10 +36,11 @@ public class EqInstruct implements Serializable {
 
     private String ts;
 
-    public static void main(String[] args) {
-        double a =(13777-4000)/21d;
-        System.out.print(new BigDecimal(a));
-    }
+    private Integer port;
+
+
+    private Integer state;
+
 
 
 }

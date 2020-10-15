@@ -53,7 +53,7 @@ public class EqRuleController {
     }
 
    @PostMapping("addrule")
-    public void  addrule( String list){
+    public void  addrule(String list){
         JSONArray array =   JSONArray.parseArray(list);
 
          for(int i=0; i<array.size(); i++) {
@@ -62,7 +62,13 @@ public class EqRuleController {
              //根据穿得类型和端口以及值来判断   0 0/2 10-11 * * ?
              StringBuffer rule = new StringBuffer();
              //断开的时间
-             String hour = "0/" + eqRule.getRuletime();
+             String hour ="";
+             if(i==0) {
+               hour  = "0/" + eqRule.getRuletime();
+             }else{
+                 EqRule eqRuleold =  JSON.toJavaObject(array.getJSONObject(0),EqRule.class);
+                 hour  =eqRule.getRuletime()+"-"+"59"+"/"+eqRuleold.getRuletime();
+             }
              rule.append("0 ");
              rule.append(hour);
              rule.append(" "+eqRule.getEffectivedate());
@@ -79,14 +85,14 @@ public class EqRuleController {
                  eqRule.setImei(eqEquipdoc.getImei());
                  eqRule.setInstructValue(eqInstruct.getInstructValue());
                  //查询这个时间段有没有设置规则
-                 QueryWrapper<EqRule> queryWrappers = new QueryWrapper<>();
+               /*  QueryWrapper<EqRule> queryWrappers = new QueryWrapper<>();
                  queryWrapper.eq("imei",eqEquipdoc.getImei());
                  queryWrapper.eq("effectivedate", eqRule.getFkEquiptype());
                  queryWrapper.eq("instruct_value", eqInstruct.getInstructValue());
                  List<EqRule> eqRules = iEqRuleService.list(queryWrappers);
                  if(eqRules.size()>0){
                      continue;
-                 }
+                 }*/
                  eqRule.setRuleValue(rule.toString());
                  iEqRuleService.saveOrUpdate(eqRule);
                  SchedulingRunnable task = new SchedulingRunnable("demoTask", "taskWithParams", eqRule.getPkRule());

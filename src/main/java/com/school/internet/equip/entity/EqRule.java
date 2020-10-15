@@ -56,7 +56,6 @@ public class EqRule implements Serializable {
     private String effectivedate;
 
 
-    @TableField(exist = false)
     private String  ruletime;
 
 }
