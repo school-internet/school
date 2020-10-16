@@ -50,6 +50,15 @@ public class LoginController {
 
     }
 
+    @RequestMapping("logout")
+    public String logout(HttpServletRequest req){
+        ThreadVariable threadVariable =  ThreadVariable.getInstance();
+        SmUser smUser  = threadVariable.getPsndoc();
+        threadVariable.remove();
+        req.getSession().removeAttribute("user");
+        return "redirect:/login";
+    }
+
 
 
 

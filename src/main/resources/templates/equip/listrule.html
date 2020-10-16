@@ -30,8 +30,8 @@
 </div>
 <div id="addjd" style="display: none">
     <form class="form-horizontal m-t" id="jd-form">
-        <input type="hidden" name="fkEquiptype"  value="${fkEquiptype}">
-        <input type="hidden" name="fkEquipdoc"  value="${pkEquipdoc}">
+        <input type="hidden" name="fkEquiptype"  value="${pkEquiptype}">
+        <input type="hidden" name="fkEquipdoc"  value="${pkEquipdoc1}">
         <div class="form-group">
             <label class="col-sm-3 control-label">端口：</label>
             <div class="col-sm-8">
@@ -96,8 +96,8 @@
 
 <div id="addbp" style="display: none">
     <form class="form-horizontal m-t" id="bp-form">
-        <input type="hidden" name="fkEquiptype"  value="${fkEquiptype}">
-        <input type="hidden" name="fkEquipdoc"  value="${pkEquipdoc}">
+        <input type="hidden" name="fkEquiptype"  value="${pkEquiptype}">
+        <input type="hidden" name="fkEquipdoc"  value="${pkEquipdoc1}">
         <div class="form-group">
             <label class="col-sm-3 control-label">端口：</label>
             <div class="col-sm-8">
@@ -145,7 +145,7 @@
 <script>
     var queryMap = new Object(); //table查询条件
     queryMap["query"] = false;
-    queryMap["fkEquipdoc"]= '${pkEquipdoc}';
+    queryMap["fkEquipdoc"]= '${pkEquipdoc1}';
     var table = null;
     var mylayer; //弹出层
     $(document).ready(function () {
@@ -155,11 +155,24 @@
         tableobj.tableid = "ruletable";
         tableobj.initColumn = function () {
             return [{
-                field: 'instructName',
-                title: '名称'
+                field: 'port',
+                title: '端口'
             },{
-                field: 'ruleValue',
-                title: '规则'
+                field: 'state',
+                title: '操作',
+                formatter:function (value, row, index){
+                    if(row.state==0){
+                        return '闭合';
+                    }else if(row.state==1){
+                        return '断开';
+                    }
+                }
+            },{
+                field: 'effectivedate',
+                title: '生效时间'
+            },{
+                field: 'ruletime',
+                title: '间隔'
             },{
                 field: 'operate',
                 title: '操作',
@@ -175,7 +188,7 @@
         tableobj.table = table.init();
 
         $("#addrule").click(function(){
-            if('${fkEquiptype}'=='1308402342397227009'){
+            if('${pkEquiptype}'=='1308402342397227009'){
                 mylayer =  layer.open({
                     type: 1,
                     closeBtn: false,
@@ -185,7 +198,7 @@
                     area: ['500px', '500px'], //宽高
                     content: $("#addjd")
                 });
-            }else if('${fkEquiptype}'=='0001000004AMN8S1VDZS'){
+            }else if('${pkEquiptype}'=='0001000004AMN8S1VDZS'){
                 mylayer =  layer.open({
                     type: 1,
                     closeBtn: false,
@@ -202,8 +215,8 @@
         $("#jdbtn").click(function () {
               var list=[];
               var obj ={};
-              obj["fkEquiptype"] ='${fkEquiptype}';
-              obj["fkEquipdoc"]='${pkEquipdoc}';
+              obj["fkEquiptype"] ='${pkEquiptype}';
+              obj["fkEquipdoc"]='${pkEquipdoc1}';
               obj["state"]=$("#state").val();
               obj["port"]=$("#port").val();
               obj["effectivedate"]=$("#effectivedate").val();
@@ -212,8 +225,8 @@
               obj["ruletime"]=parseInt(a)+parseInt(b)
               list.push(obj)
             var obj1 ={};
-            obj1["fkEquiptype"] ='${fkEquiptype}';
-            obj1["fkEquipdoc"]='${pkEquipdoc}';
+            obj1["fkEquiptype"] ='${pkEquiptype}';
+            obj1["fkEquipdoc"]='${pkEquipdoc1}';
             obj1["state"]=$("#state2").val();
             obj1["port"]=$("#port").val();
             obj1["effectivedate"]=$("#effectivedate").val();
