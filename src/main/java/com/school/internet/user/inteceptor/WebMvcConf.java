@@ -20,6 +20,11 @@ public class WebMvcConf implements WebMvcConfigurer  {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor).excludePathPatterns("/static")
+                .excludePathPatterns("/js/**")
+                .excludePathPatterns("/css/**")
+                .excludePathPatterns("/fonts/**")
+                .excludePathPatterns("/img/**")
+                .excludePathPatterns("/pages/**")
                 .excludePathPatterns("/")
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/error")
@@ -27,6 +32,11 @@ public class WebMvcConf implements WebMvcConfigurer  {
                 .addPathPatterns("/**");
         registry.addInterceptor(authActionInterceptor)
                 .excludePathPatterns("/static")
+                .excludePathPatterns("/js/**")
+                .excludePathPatterns("/css/**")
+                .excludePathPatterns("/fonts/**")
+                .excludePathPatterns("/img/**")
+                .excludePathPatterns("/pages/**")
                 .excludePathPatterns("/")
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/error")
