@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Map;
 import java.util.HashMap;
+import com.school.internet.corn.task.DemoTask;
 
 import java.util.List;
 
@@ -20,10 +21,12 @@ public class DemoApplicationTests {
 
     @Autowired
     private CronTaskRegistrar cronTaskRegistrar;
+    @Autowired
+    private DemoTask demoTask;
 
     @Test
     public void testrule(){
-
+        demoTask.taskWithParams("1316560309108604929");
     }
 
     @Test

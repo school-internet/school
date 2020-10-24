@@ -42,11 +42,11 @@ public class Dcc_client {
 
 
 
-    @Autowired
-	private EqEquipdocServiceImpl iEqEquipdocService;
 
-@Autowired
-	private EqReceiveServiceImpl iEqReceiveService;
+	private IEqEquipdocService iEqEquipdocService;
+
+
+	private IEqReceiveService iEqReceiveService;
 
 
 
@@ -364,6 +364,8 @@ public class Dcc_client {
 
 	public     void dcc_msg_decoder2(byte ptr[], dcc_msg msg)
 			throws IOException {
+		iEqEquipdocService = SpringContextUtils.getBean(IEqEquipdocService.class);
+		iEqReceiveService = SpringContextUtils.getBean(IEqReceiveService.class);
 		int index = g_hdr_id.length;
 		// imei
 		byte[] Imeichar = new byte[IMEI_LEN];
