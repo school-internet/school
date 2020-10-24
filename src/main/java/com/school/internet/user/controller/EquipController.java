@@ -105,10 +105,6 @@ public class EquipController {
         lambdaQueryWrapper.eq(EqInstruct::getDr,0);
         lambdaQueryWrapper.eq(EqInstruct::getFkEquiptype,fkEquiptype);
         List<EqInstruct> instructs = iEqInstructService.list(lambdaQueryWrapper);
-        modelMap.put("imei",imei);
-        modelMap.put("instructs",instructs);
-        modelMap.put("fkEquiptype",fkEquiptype);
-        modelMap.put("pkEquipdoc",pkEquipdoc);
         ReviceVO reviceVO = iEqEquipdocService.selectState(pkEquipdoc);
         modelMap.put("reviceVO",reviceVO);
         return "equip/sendinstructs";

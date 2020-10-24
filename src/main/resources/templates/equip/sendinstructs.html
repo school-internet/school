@@ -196,7 +196,7 @@
             var index = null;
             $.ajax({
                 type: "GET",
-                url:"/equip/eq-equipdoc/sendMsgs?pkEquipdoc=${pkEquipdoc}&fkEquiptype=${fkEquiptype}&imei=${imei}&structs="+instructValue,
+                url:"/equip/eq-equipdoc/sendMsgs?pkEquipdoc=${reviceVO.pkEquipdoc}&fkEquiptype=${reviceVO.fkEquiptype}&imei=${reviceVO.imei}&structs="+instructValue,
                 async: false,
                 beforeSend: function () {
 

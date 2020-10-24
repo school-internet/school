@@ -230,13 +230,10 @@
             obj1["state"]=$("#state2").val();
             obj1["port"]=$("#port").val();
             obj1["effectivedate"]=$("#effectivedate").val();
-             var num ;
-            if(parseInt($("#rulevalue").val())<10){
-                var c = parseInt($("#rulevalue").val());
-                num ="0"+c;
-            }else{
-                num =parseInt($("#rulevalue").val());
-            }
+
+
+             var   num =parseInt($("#rulevalue").val());
+
             obj1["ruletime"]= num;
             list.push(obj1)
             $.ajax({

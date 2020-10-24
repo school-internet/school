@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Map;
+import java.util.Random;
 
 public class SchedulingRunnable implements Runnable{
 
@@ -35,8 +36,8 @@ public class SchedulingRunnable implements Runnable{
 
 
     @Override
-    public void run() {
-        logger.info("定时任务开始执行 - bean：{}，方法：{}，参数：{}", beanName, methodName, params);
+    public synchronized void run() {
+      //  logger.info("定时任务开始执行 - bean：{}，方法：{}，参数：{}", beanName, methodName, params);
         long startTime = System.currentTimeMillis();
 
         try {
@@ -59,6 +60,12 @@ public class SchedulingRunnable implements Runnable{
             } else {
                 method.invoke(target);
             }
+            int max = 5000;
+            int min = 1000;
+            Random random = new Random();
+            int s = random.nextInt(max) % (max - min + 1) + min;
+            Thread.sleep(s);
+
         } catch (Exception ex) {
             logger.error(String.format("定时任务执行异常 - bean：%s，方法：%s，参数：%s ", beanName, methodName, params), ex);
         }

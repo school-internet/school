@@ -82,7 +82,6 @@ public class EqEquipdocController {
         //指令格式 1:0,2:1,3:0.... 以逗号截取8个口
         //数据包格式看mserver相关手册
         //发送广播
-
         String[] array =  structs.split(",");
         for(int i=0;i<array.length;i++){
             String msg = array[i];
@@ -93,7 +92,7 @@ public class EqEquipdocController {
             queryWrapper.eq("state",param[1]);
             EqInstruct eqInstruct= iEqInstructService.getOne(queryWrapper);
            String value =  eqInstruct.getInstructValue();
-            MsgUtil.sendMsg(imei,value);
+           // MsgUtil.sendMsg(imei,value);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -107,8 +106,13 @@ public class EqEquipdocController {
         eqSendlog.setState(0);
         eqSendlog.setInstructValue(structs);
         iEqSendlogService.save(eqSendlog);
-        MsgUtil.sendMsg(imei,"01032B580004CC3E");
-        return MsgUtil.sendMsg(imei, "0101480000082A6C");
+        new MsgUtil().sendMsg(imei,"01032B580004CC3E");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return new  MsgUtil().sendMsg(imei, "0101480000082A6C");
 
 
 
@@ -157,7 +161,7 @@ public class EqEquipdocController {
                buffer.append(ByteUtils.getCRC("01074802"));
            }
 
-            MsgUtil.sendMsg(imei,buffer.toString());
+           // MsgUtil.sendMsg(imei,buffer.toString());
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -172,9 +176,9 @@ public class EqEquipdocController {
         eqSendlog.setInstructValue(structs);
         iEqSendlogService.save(eqSendlog);
 
-        return MsgUtil.sendMsg(imei,"01072B000000BDEE");
+       // return MsgUtil.sendMsg(imei,"01072B000000BDEE");
 
-
+        return  0;
     }
 
 
@@ -186,12 +190,12 @@ public class EqEquipdocController {
 
         //数据包格式看mserver相关手册
         //发送广播
-        Integer  values = MsgUtil.sendMsg(imei,value);
+       // Integer  values = MsgUtil.sendMsg(imei,value);
         EqSendlog  eqSendlog  = new EqSendlog();
         eqSendlog.setFkEquipdoc(pkEquipdoc);
         eqSendlog.setSendTime(DateTimeUtils.formatTime());
         eqSendlog.setResultValue("成功");
-        eqSendlog.setState(values);
+      //  eqSendlog.setState(values);
         eqSendlog.setInstructValue(value);
         iEqSendlogService.save(eqSendlog);
 
@@ -201,9 +205,5 @@ public class EqEquipdocController {
 
     //查找设备机型当前最新状态
 
-
-    public void  getWork(){
-
-    }
 
 }

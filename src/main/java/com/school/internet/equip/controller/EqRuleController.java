@@ -60,6 +60,11 @@ public class EqRuleController {
 
              EqRule eqRule =  JSON.toJavaObject(array.getJSONObject(i),EqRule.class);
              //根据穿得类型和端口以及值来判断   0 0/2 10-11 * * ?
+
+             String effecttime = eqRule.getEffectivedate();
+            String[] arraytime =  effecttime.split("-");
+            Integer endTime = Integer.valueOf(arraytime[1])-1;
+            String effectivedate  =arraytime[0]+"-"+endTime;
              StringBuffer rule = new StringBuffer();
              //断开的时间
              String hour ="";
@@ -71,7 +76,7 @@ public class EqRuleController {
              }
              rule.append("0 ");
              rule.append(hour);
-             rule.append(" "+eqRule.getEffectivedate());
+             rule.append(" "+effectivedate);
              rule.append(" * * ?");
              QueryWrapper<EqInstruct> queryWrapper = new QueryWrapper<>();
              queryWrapper.eq("fk_equiptype", eqRule.getFkEquiptype());

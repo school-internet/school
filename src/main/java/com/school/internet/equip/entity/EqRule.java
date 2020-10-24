@@ -10,6 +10,8 @@ import lombok.EqualsAndHashCode;
 import java.beans.Transient;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * <p>
@@ -57,5 +59,18 @@ public class EqRule implements Serializable {
 
 
     private String  ruletime;
+
+
+    public static void main(String[] args) {
+        try {
+            String  a ="2020.9.4";
+            a=   a.replace(".","-");
+            System.out.print("2222="+a);
+            SimpleDateFormat simpleDateFormat  = new SimpleDateFormat("yyyy-HH-dd");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

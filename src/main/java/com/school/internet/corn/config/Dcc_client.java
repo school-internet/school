@@ -5,8 +5,11 @@ import com.school.internet.equip.entity.EqReceive;
 
 import com.school.internet.equip.entity.EquipdocVO;
 import com.school.internet.equip.mapper.EqEquipdocMapper;
+import com.school.internet.equip.service.IEqEquipdocService;
+import com.school.internet.equip.service.IEqReceiveService;
 import com.school.internet.equip.service.impl.EqEquipdocServiceImpl;
 import com.school.internet.equip.service.impl.EqReceiveServiceImpl;
+import com.school.internet.utils.SpringContextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.io.*;
@@ -39,10 +42,10 @@ public class Dcc_client {
 
 
 
-   @Autowired
+    @Autowired
 	private EqEquipdocServiceImpl iEqEquipdocService;
 
-   @Autowired
+@Autowired
 	private EqReceiveServiceImpl iEqReceiveService;
 
 
@@ -55,7 +58,6 @@ public class Dcc_client {
 			SocketChannel client = SocketChannel.open(add);
 			client.configureBlocking(false);
 			// client.connect(new InetSocketAddress("localhost", mServerPort));
-
 			return client;
 		} catch (Exception e) {
 			return null;
@@ -80,6 +82,77 @@ public class Dcc_client {
 		ByteBuffer result = dcc_msg_encoder(msg);
 		socket.write(result);
 		return 0;
+	}
+
+
+
+	public  int dcc_msg_send2(SocketChannel socket, dcc_msg msg)
+			throws IOException {
+		ByteBuffer result = dcc_msg_encoder(msg);
+		socket.write(result);
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		for(int i=0;i<5;i++){
+			dcc_msg dcc_msg = new dcc_msg();
+			dcc_msg_recv2(socket,dcc_msg);
+			if(dcc_msg.getImei().equals(msg.getImei())){
+               return 0;
+			}
+		}
+		return 1;
+
+	}
+
+
+	private   int dcc_msg_recv2(SocketChannel socket, dcc_msg msg)
+			throws IOException {
+		ByteBuffer buffer = ByteBuffer.allocate(HEAD_ID_LEN + IMEI_LEN + 1
+				+ DTU_NAME + 1 + 4);
+		int len = socket.read(buffer);
+		if (len == -1) {
+			return -1;
+		}
+
+		buffer.flip();
+		if (!buffer.hasRemaining()) {
+			return 0;
+		} else {
+			if (len != HEAD_ID_LEN + IMEI_LEN + 1 + DTU_NAME + 1 + 4) {
+				return -2;
+			}
+
+			// 计算msg body的长度
+
+			int idx = HEAD_ID_LEN + IMEI_LEN + 1 + DTU_NAME + 1;
+			//int recvlen = buffer.get(idx + 2) * 256 + buffer.get(idx + 2 + 1);
+			byte[] byte_len=new byte[2];
+			byte_len[0]=buffer.get(idx + 2);
+			byte_len[1]=buffer.get(idx + 2 + 1);
+			int recvlen=byteToInt(byte_len);
+			// 按msg body的长度取出body
+			ByteBuffer buff = ByteBuffer.allocate(recvlen);
+
+			int bodylen = socket.read(buff);
+			if (bodylen != recvlen) {
+				return -2;
+			}
+			buff.flip();
+
+			byte message[] = new byte[40 + recvlen];
+
+			System.arraycopy(buffer.array(), 0, message, 0,
+					buffer.array().length);
+			System.arraycopy(buff.array(), 0, message, 40, buff.array().length);
+			// buffer.clear();
+			buffer.clear();
+			System.out.println("Reveice msg："+new String(message));
+			dcc_msg_decoder2(message, msg);
+		}
+
+		return len;
 	}
 
 	public  int dcc_msg_recv(SocketChannel socket, dcc_msg msg)
@@ -123,7 +196,7 @@ public class Dcc_client {
 			System.arraycopy(buff.array(), 0, message, 40, buff.array().length);
 			// buffer.clear();
 			buffer.clear();
-			 System.out.println("Reveice msg："+new String(message));
+			System.out.println("Reveice msg："+new String(message));
 			dcc_msg_decoder2(message, msg);
 		}
 
@@ -296,14 +369,13 @@ public class Dcc_client {
 		byte[] Imeichar = new byte[IMEI_LEN];
 		System.arraycopy(ptr, index, Imeichar, 0, IMEI_LEN);
            String imei  =new String(Imeichar);
+           System.out.print("imei是="+imei);
 		 List<EquipdocVO> eqEquipdoc =  iEqEquipdocService.selectEquipdoc(imei);
 		 if(eqEquipdoc ==null||eqEquipdoc.size()==0){
 		 	throw  new IOException("没有本设备");
 		 }
 		msg.setImei(new String(Imeichar));
-
 		index += IMEI_LEN + 1;
-
 		// name
 		byte[] Namechar = new byte[DTU_NAME];
 		System.arraycopy(ptr, index, Namechar, 0, DTU_NAME);
@@ -341,7 +413,7 @@ public class Dcc_client {
                           	vo =equipdoc;
                           	break;
 						  }else{
-							  new IOException("没有本设备类型");
+							throw   new IOException("没有本设备类型");
 						  }
 				}
 				//读取继电器状态
@@ -380,7 +452,7 @@ public class Dcc_client {
 						vo =equipdoc;
 						break;
 					}else{
-						new IOException("没有本设备类型");
+					  throw 	new IOException("没有本设备类型");
 					}
 				}
 				String temp = msgBody.substring(14,18);//3*2 + 2*4
@@ -430,11 +502,8 @@ public class Dcc_client {
 			}
 		}
 		//logger.error("tag: " + tag + ", msg_body: " + bytesToHex(Bodychar));
-
 		msg.setMsg_body(Bodychar);
 		index += msg.getMsg_len();
-		System.out.print("22222msg="+ ByteUtils.getHexString(msg.getMsg_body()));
-
 	}
 
 
@@ -449,5 +518,8 @@ public class Dcc_client {
 		}
 		return sb.toString();
 	}
+
+
+
 
 }
