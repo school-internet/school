@@ -90,20 +90,44 @@ public class Dcc_client {
 			throws IOException {
 		ByteBuffer result = dcc_msg_encoder(msg);
 		socket.write(result);
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		for(int i=0;i<5;i++){
+		socket.close();
+		SocketChannel socket1 = this.dcc_Socket("iot.harvestcloud.cn", 9877);
+		int i = 0;
+		while (i<=20) {
 			dcc_msg dcc_msg = new dcc_msg();
-			dcc_msg_recv2(socket,dcc_msg);
-			if(dcc_msg.getImei().equals(msg.getImei())){
-               return 0;
+			this.dcc_msg_recv2(socket1, dcc_msg);
+			if(null != dcc_msg.getImei()){
+				if(dcc_msg.getImei().equals(msg.getImei())){
+					socket1.close();
+					return 0;
+				}else{
+					i++;
+				}
 			}
 		}
-		return 1;
 
+
+//		try {
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//		int i = 0;
+//		while(i<=5){
+//			dcc_msg dcc_msg = new dcc_msg();
+//			dcc_msg_recv(socket,dcc_msg);
+//			if(null != dcc_msg.getImei()){
+//				if(dcc_msg.getImei().equals(msg.getImei())){
+//					return 0;
+//				}else{
+//					i++;
+//				}
+//			}
+//
+//		}
+
+
+		return 1;
 	}
 
 
@@ -197,7 +221,7 @@ public class Dcc_client {
 			// buffer.clear();
 			buffer.clear();
 			System.out.println("Reveice msg："+new String(message));
-			dcc_msg_decoder2(message, msg);
+			dcc_msg_decoder(message, msg);
 		}
 
 		return len;
@@ -262,6 +286,9 @@ public class Dcc_client {
 		byte[] Imeichar = new byte[IMEI_LEN];
 		System.arraycopy(ptr, index, Imeichar, 0, IMEI_LEN);
 		msg.setImei(new String(Imeichar));
+		if(new String(Imeichar).equals("240305004056201")){
+			System.out.println("240305004056201");
+		}
 		index += IMEI_LEN + 1;
 
 		// name
@@ -371,7 +398,10 @@ public class Dcc_client {
 		byte[] Imeichar = new byte[IMEI_LEN];
 		System.arraycopy(ptr, index, Imeichar, 0, IMEI_LEN);
            String imei  =new String(Imeichar);
-           System.out.print("imei是="+imei);
+           if(imei.equals("240305004056201")){
+			   System.out.print("imei是="+imei);
+		   }
+
 		 List<EquipdocVO> eqEquipdoc =  iEqEquipdocService.selectEquipdoc(imei);
 		 if(eqEquipdoc ==null||eqEquipdoc.size()==0){
 		 	throw  new IOException("没有本设备");

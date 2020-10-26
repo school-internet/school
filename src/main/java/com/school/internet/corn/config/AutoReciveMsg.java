@@ -36,7 +36,7 @@ public class AutoReciveMsg   implements CommandLineRunner {
             cronTaskRegistrar.addCronTask(task, eqRule.getRuleValue());
         }
         //  new RevciveMsgRunnable().run();
-       // taskService.receive();
+//        taskService.receive();
 
     }
 
