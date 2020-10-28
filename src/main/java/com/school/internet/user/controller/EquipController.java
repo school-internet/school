@@ -123,5 +123,10 @@ public class EquipController {
         return "equip/editinstruct";
     }
 
+    @GetMapping("sdll")
+    public String tosdll(){
+        return "sd/sdll";
+    }
+
 
 }
