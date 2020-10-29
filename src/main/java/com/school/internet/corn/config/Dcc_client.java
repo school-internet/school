@@ -90,44 +90,7 @@ public class Dcc_client {
 			throws IOException {
 		ByteBuffer result = dcc_msg_encoder(msg);
 		socket.write(result);
-		socket.close();
-		SocketChannel socket1 = this.dcc_Socket("iot.harvestcloud.cn", 9877);
-		int i = 0;
-		while (i<=20) {
-			dcc_msg dcc_msg = new dcc_msg();
-			this.dcc_msg_recv2(socket1, dcc_msg);
-			if(null != dcc_msg.getImei()){
-				if(dcc_msg.getImei().equals(msg.getImei())){
-					socket1.close();
-					return 0;
-				}else{
-					i++;
-				}
-			}
-		}
-
-
-//		try {
-//			Thread.sleep(1000);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//		int i = 0;
-//		while(i<=5){
-//			dcc_msg dcc_msg = new dcc_msg();
-//			dcc_msg_recv(socket,dcc_msg);
-//			if(null != dcc_msg.getImei()){
-//				if(dcc_msg.getImei().equals(msg.getImei())){
-//					return 0;
-//				}else{
-//					i++;
-//				}
-//			}
-//
-//		}
-
-
-		return 1;
+		return 0;
 	}
 
 
