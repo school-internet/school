@@ -27,6 +27,17 @@ public class LoginController {
     @Autowired
     private ISmUserService iSmUserService;
 
+    @RequestMapping("wxindex")
+    public String wxindex(HttpServletRequest req){
+        SmUser smUser =  iSmUserService.querySmUser("root","123789");
+        ThreadVariable threadVariable =  ThreadVariable.getInstance();
+        Thread thread = new Thread(threadVariable);
+        threadVariable.setPsndoc(smUser);
+        thread.start();
+        req.getSession().setAttribute("user",smUser);
+        return  "index";
+    }
+
     @RequestMapping("login")
     public String login(HttpServletRequest req){
         String username = req.getParameter("username");

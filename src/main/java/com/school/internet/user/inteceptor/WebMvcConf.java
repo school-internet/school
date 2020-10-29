@@ -27,6 +27,7 @@ public class WebMvcConf implements WebMvcConfigurer  {
                 .excludePathPatterns("/pages/**")
                 .excludePathPatterns("/")
                 .excludePathPatterns("/login")
+                .excludePathPatterns("/wxindex")
                 .excludePathPatterns("/error")
                 .excludePathPatterns("/logout")
                 .addPathPatterns("/**");
@@ -39,6 +40,7 @@ public class WebMvcConf implements WebMvcConfigurer  {
                 .excludePathPatterns("/pages/**")
                 .excludePathPatterns("/")
                 .excludePathPatterns("/login")
+                .excludePathPatterns("/wxindex")
                 .excludePathPatterns("/error")
                 .excludePathPatterns("/logout")
                 .addPathPatterns("/**");
