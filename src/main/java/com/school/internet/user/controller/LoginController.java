@@ -35,7 +35,7 @@ public class LoginController {
         threadVariable.setPsndoc(smUser);
         thread.start();
         req.getSession().setAttribute("user",smUser);
-        return  "index";
+        return  "wxindex";
     }
 
     @RequestMapping("login")
