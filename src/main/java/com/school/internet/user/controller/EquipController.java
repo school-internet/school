@@ -37,7 +37,8 @@ public class EquipController {
     }
 
     @RequestMapping("/equiplist")
-    public String equiplist(){
+    public String equiplist(String pkEquiptype, ModelMap modelMap){
+        modelMap.put("pkEquiptype1",pkEquiptype);
         return "equip/equiplist";
     }
 
