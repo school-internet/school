@@ -3,14 +3,18 @@ server:
   tomcat:
     uri-encoding: utf-8
 
+wx:
+ appId: wxdeb93549980cb284
+ secret: 192caa8a50537f225f9c446c5fda5bf6
+
 spring:
   application:
     name: manger
   datasource:
-    url: jdbc:mysql://172.16.183.237:3306/aale?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+    url: jdbc:mysql://localhost:3306/aale?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
     driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    password: root
+    username: sysuser
+    password: sysuser
     type: com.alibaba.druid.pool.DruidDataSource
   freemarker:
     cache: true
@@ -45,5 +49,11 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
+
+
+
 
 

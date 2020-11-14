@@ -30,7 +30,7 @@ public   class MsgUtil {
             msg.setMsg_body(ByteUtils.getByteArray(value));
             msg.setImei(imei);
             return   dcc_client.dcc_msg_send2(socket,msg);
-        } catch (IOException e) {
+        } catch (Exception e) {
 
             e.printStackTrace();
             return  1;

@@ -87,9 +87,11 @@ public class Dcc_client {
 
 
 	public  int dcc_msg_send2(SocketChannel socket, dcc_msg msg)
-			throws IOException {
+			throws Exception {
 		ByteBuffer result = dcc_msg_encoder(msg);
 		socket.write(result);
+		Thread.sleep(1000);
+		socket.close();
 		return 0;
 	}
 

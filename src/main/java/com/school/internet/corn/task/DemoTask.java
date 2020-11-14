@@ -28,13 +28,13 @@ public class DemoTask {
     private IEqSendlogService iEqSendlogService;
 
 
-    public  synchronized void taskWithParams(String pkRule) {
+    public   void taskWithParams(String pkRule) {
 
         //数据包格式看mserver相关手册
         //发送广播
         try {
             int max = 5000;
-            int min = 1000;
+            int min = 2000;
             Random random = new Random();
             int s = random.nextInt(max) % (max - min + 1) + min;
             Thread.sleep(s);
