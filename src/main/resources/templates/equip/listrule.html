@@ -188,6 +188,7 @@
         tableobj.table = table.init();
 
         $("#addrule").click(function(){
+            console.log('${pkEquiptype}');
             if('${pkEquiptype}'=='1308402342397227009'){
                 mylayer =  layer.open({
                     type: 1,
@@ -208,7 +209,10 @@
                     area: ['500px', '500px'], //宽高
                     content: $("#addbp")
                 });
+            }else if('${pkEquiptype}'=='0001000004AMN8S1VDZA'){
+                alert("风扇规则暂时不可添加");
             }
+
 
         })
 

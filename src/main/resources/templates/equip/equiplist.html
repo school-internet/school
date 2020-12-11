@@ -46,16 +46,20 @@
         tableobj.initColumn = function () {
             return [{
                 field: 'equipName',
-                title: '名称'
+                title: '名称',
+                width: 50
             },{
                 field: 'equipCode',
-                title: '编码'
+                title: '编码',
+                width: 50
             },{
                 field: 'typeName',
-                title: '机型'
+                title: '机型',
+                width: 50
             },{
                 field: 'state',
                 title: '状态',
+                width: 50,
                 formatter:function (value, row, index){
                     if(row.state==0){
                         return '正常';
@@ -65,12 +69,13 @@
                 }
             },{
                 field: 'location',
-                title: '位置'
+                title: '位置',
+                width: 50
             },{
                 field: 'operate',
                 title: '操作',
                 align: 'center',
-                width: 250,
+                width: 100,
                 valign: 'middle',
                 formatter: operateFormatter,
                 events: operateEvents
@@ -87,8 +92,8 @@
                 shadeClose: false,
                 shade: 0.1,
                 shift:2,
-                area: ['50%', '60%'],
-                content: 'equip/addequip',
+                area: ['70%', '80%'],
+                content: 'addequip',
                 cancel: function(){
                     table.refresh();
                 },
@@ -100,19 +105,19 @@
     })
     function operateFormatter(value, row, index) {
         return [
-            '<a class="details" style="width:200px" href="javascript:void(0)" title="详情">',
+            '<a class="details" style="width:200px;font-size: 18px" href="javascript:void(0)" title="详情">',
             '详情',
             '</a></br>',
-            '<a class="edit" style="width:200px" href="javascript:void(0)" title="修改">',
+            '<a class="edit" style="width:200px;font-size: 18px" href="javascript:void(0)" title="修改">',
             '修改',
             '</a></br>',
-            '<a class="del" style="width:200px" href="javascript:void(0)" title="删除">',
+            '<a class="del" style="width:200px;font-size: 18px" href="javascript:void(0)" title="删除">',
             '删除',
             '</a></br>',
-            '<a class="send" style="width:200px" href="javascript:void(0)" title="下发">',
+            '<a class="send" style="width:200px;font-size: 18px" href="javascript:void(0)" title="下发">',
             '下发',
             '</a></br>',
-            '<a class="rule" style="width:200px" href="javascript:void(0)" title="规则">',
+            '<a class="rule" style="width:200px;font-size: 18px" href="javascript:void(0)" title="规则">',
             '规则',
             '</a></br>'
         ].join('');
