@@ -46,13 +46,10 @@
         tableobj.initColumn = function () {
             return [{
                 field: 'equipName',
-                title: '设备名称'
+                title: '名称'
             },{
                 field: 'equipCode',
-                title: '设备编码'
-            },{
-                field: 'imei',
-                title: 'IMEI'
+                title: '编码'
             },{
                 field: 'typeName',
                 title: '机型'
@@ -73,7 +70,7 @@
                 field: 'operate',
                 title: '操作',
                 align: 'center',
-                width: 100,
+                width: 250,
                 valign: 'middle',
                 formatter: operateFormatter,
                 events: operateEvents
@@ -103,22 +100,21 @@
     })
     function operateFormatter(value, row, index) {
         return [
-            '<a class="details" style="margin-left:10px" href="javascript:void(0)" title="详情">',
+            '<a class="details" style="width:200px" href="javascript:void(0)" title="详情">',
             '详情',
-            '</a>',
-            '<a class="edit" style="margin-left:10px" href="javascript:void(0)" title="修改">',
+            '</a></br>',
+            '<a class="edit" style="width:200px" href="javascript:void(0)" title="修改">',
             '修改',
-            '</a>',
-            '<a class="del" style="margin-left:10px" href="javascript:void(0)" title="删除">',
+            '</a></br>',
+            '<a class="del" style="width:200px" href="javascript:void(0)" title="删除">',
             '删除',
-            '</a>',
-            '<a class="send" style="margin-left:10px" href="javascript:void(0)" title="下发">',
+            '</a></br>',
+            '<a class="send" style="width:200px" href="javascript:void(0)" title="下发">',
             '下发',
-            '</a>',
-            '</a>',
-            '<a class="rule" style="margin-left:10px" href="javascript:void(0)" title="规则">',
+            '</a></br>',
+            '<a class="rule" style="width:200px" href="javascript:void(0)" title="规则">',
             '规则',
-            '</a>'
+            '</a></br>'
         ].join('');
     };
     window.operateEvents = {
